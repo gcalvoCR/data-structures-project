@@ -27,6 +27,15 @@
     <ClInclude Include="Lista.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MaestroEstudiantes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Estudiante.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NodoDE.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Proyecto.rc">
@@ -41,6 +50,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Lista.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MaestroEstudiantes.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Estudiante.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NodoDE.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

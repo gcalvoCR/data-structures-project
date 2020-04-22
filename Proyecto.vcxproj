@@ -113,11 +113,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Estudiante.h" />
     <ClInclude Include="Lista.h" />
+    <ClInclude Include="MaestroEstudiantes.h" />
     <ClInclude Include="MyForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="Nodo.h" />
+    <ClInclude Include="NodoDE.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
@@ -131,9 +134,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Estudiante.cpp" />
     <ClCompile Include="Lista.cpp" />
+    <ClCompile Include="MaestroEstudiantes.cpp" />
     <ClCompile Include="MyForm.cpp" />
     <ClCompile Include="Nodo.cpp" />
+    <ClCompile Include="NodoDE.cpp" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MyForm.resx">
