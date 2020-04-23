@@ -15,51 +15,46 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="resource.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MyForm.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Nodo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Lista.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MaestroEstudiantes.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Estudiante.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="NodoDE.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="Proyecto.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="MyForm.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Nodo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Lista.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MaestroEstudiantes.cpp">
+    <ClCompile Include="Proyecto.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Estudiante.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="MaestroEstudiantes.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="NodoDE.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Materia.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NodoDM.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ListaMaterias.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Estudiante.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MaestroEstudiantes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NodoDE.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Materia.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NodoDM.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ListaMaterias.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
