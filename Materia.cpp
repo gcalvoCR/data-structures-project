@@ -5,11 +5,12 @@ Materia::Materia()
 {
 }
 
-Materia::Materia(string codigoMateria, string nombre, string descripcion)
+Materia::Materia(string codigoMateria, string nombre, string descripcion, ListaGrupos grupos)
 {
     this->codigoMateria = codigoMateria;
     this->nombre = nombre;
     this->descripcion = descripcion;
+	this->grupos = grupos;
 }
 
 string Materia::getCodigoMateria()
@@ -40,6 +41,16 @@ string Materia::getDescripcion()
 void Materia::setDescripcion(string descripcion)
 {
     this->descripcion = descripcion;
+}
+
+ListaGrupos Materia::getGrupos()
+{
+	return this->grupos;
+}
+
+void Materia::setGrupos(ListaGrupos grupos)
+{
+	this->grupos = grupos;
 }
 
 void Materia::desplegar()
