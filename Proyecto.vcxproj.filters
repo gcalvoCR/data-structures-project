@@ -45,6 +45,15 @@
     <ClCompile Include="ListaGrupos.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="NodoDEM.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EstudianteMatriculado.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ListaEstudiantesMatriculados.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Estudiante.h">
@@ -72,6 +81,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ListaGrupos.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NodoDEM.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EstudianteMatriculado.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ListaEstudiantesMatriculados.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

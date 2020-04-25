@@ -1,41 +1,46 @@
-#include "ListaMaterias.h"
-
-#include "MaestroEstudiantes.h"
+#include "ListaEstudiantesMatriculados.h"
 #include <iostream>
 
-NodoDM* ListaMaterias::getCab()
+
+ListaEstudiantesMatriculados::ListaEstudiantesMatriculados()
+{
+	this->cab = NULL;
+	this->largo = 0;
+}
+
+NodoDEM* ListaEstudiantesMatriculados::getCab()
 {
 	return this->cab;
 }
 
-void ListaMaterias::setCab(NodoDM* pCab)
+void ListaEstudiantesMatriculados::setCab(NodoDEM* pCab)
 {
 	this->cab = pCab;
 }
 
-int ListaMaterias::getLargo()
+int ListaEstudiantesMatriculados::getLargo()
 {
 	return this->largo;
 }
 
-void ListaMaterias::setLargo(int pLargo)
+void ListaEstudiantesMatriculados::setLargo(int pLargo)
 {
 	this->largo = pLargo;
 }
 
-NodoDM* ListaMaterias::buscarNodo(Materia x)
+NodoDEM* ListaEstudiantesMatriculados::buscarNodo(EstudianteMatriculado x)
 {
-	NodoDM* aux = NULL;
+	NodoDEM* aux = NULL;
 
 	if (!this->esVacia()) {
 		aux = this->getCab();
 
-		if (this->getCab()->getDato().getCodigoMateria().compare(x.getCodigoMateria()) != 0) {
+		if (this->getCab()->getDato().getCedula().compare(x.getCedula()) != 0) {
 			do {
 				aux = aux->getSgte();
-			} while (aux != this->getCab() && aux->getDato().getCodigoMateria().compare(x.getCodigoMateria()) != 0);
+			} while (aux != this->getCab() && aux->getDato().getCedula().compare(x.getCedula()) != 0);
 
-			if (aux->getDato().getCodigoMateria().compare(x.getCodigoMateria()) != 0) {
+			if (aux->getDato().getCedula().compare(x.getCedula()) != 0) {
 				aux = NULL;
 			}
 		}
@@ -44,9 +49,9 @@ NodoDM* ListaMaterias::buscarNodo(Materia x)
 	return aux;
 }
 
-NodoDM* ListaMaterias::nodoUltimo()
+NodoDEM* ListaEstudiantesMatriculados::nodoUltimo()
 {
-	NodoDM* aux = NULL;
+	NodoDEM* aux = NULL;
 
 	if (!this->esVacia()) {
 		aux = this->getCab();
@@ -59,24 +64,24 @@ NodoDM* ListaMaterias::nodoUltimo()
 	return aux;
 }
 
-NodoDM* ListaMaterias::nodoAnt(Materia x)
+NodoDEM* ListaEstudiantesMatriculados::nodoAnt(EstudianteMatriculado x)
 {
-	NodoDM* aux = NULL;
+	NodoDEM* aux = NULL;
 
 	if (this->existe(x)) {
 		aux = this->getCab();
 
 		do {
 			aux = aux->getSgte();
-		} while (aux != this->getCab() && aux->getSgte()->getDato().getCodigoMateria().compare(x.getCodigoMateria()) != 0);
+		} while (aux != this->getCab() && aux->getSgte()->getDato().getCedula().compare(x.getCedula()) != 0);
 	}
 
 	return aux;
 }
 
-NodoDM* ListaMaterias::nodoAnt(NodoDM* dir)
+NodoDEM* ListaEstudiantesMatriculados::nodoAnt(NodoDEM* dir)
 {
-	NodoDM* aux = NULL;
+	NodoDEM* aux = NULL;
 
 	if (dir != NULL) {
 		aux = this->getCab();
@@ -93,14 +98,14 @@ NodoDM* ListaMaterias::nodoAnt(NodoDM* dir)
 	return aux;
 }
 
-NodoDM* ListaMaterias::nodoPrimero()
+NodoDEM* ListaEstudiantesMatriculados::nodoPrimero()
 {
 	return this->getCab();
 }
 
-Materia ListaMaterias::demeDato(NodoDM* dir)
+EstudianteMatriculado ListaEstudiantesMatriculados::demeDato(NodoDEM* dir)
 {
-	Materia dato;
+	EstudianteMatriculado dato;
 
 	if (dir != NULL) {
 		dato = dir->getDato();
@@ -109,10 +114,10 @@ Materia ListaMaterias::demeDato(NodoDM* dir)
 	return dato;
 }
 
-void ListaMaterias::borrarNodo(NodoDM* dir)
+void ListaEstudiantesMatriculados::borrarNodo(NodoDEM* dir)
 {
 	if (!this->esVacia()) {
-		NodoDM* aux = this->getCab();
+		NodoDEM* aux = this->getCab();
 
 		if (this->getCab() == dir) {
 			this->getCab()->getSgte()->setAnte(this->getCab()->getAnte());
@@ -144,25 +149,19 @@ void ListaMaterias::borrarNodo(NodoDM* dir)
 	}
 }
 
-ListaMaterias::ListaMaterias()
-{
-	this->cab = NULL;
-	this->largo = 0;
-}
-
-bool ListaMaterias::esVacia()
+bool ListaEstudiantesMatriculados::esVacia()
 {
 	return this->getLargo() == 0;
 }
 
-int ListaMaterias::cantidad()
+int ListaEstudiantesMatriculados::cantidad()
 {
 	return this->getLargo();
 }
 
-Materia ListaMaterias::primero()
+EstudianteMatriculado ListaEstudiantesMatriculados::primero()
 {
-	Materia valor;
+	EstudianteMatriculado valor;
 
 	if (!this->esVacia()) {
 		valor = this->getCab()->getDato();
@@ -171,9 +170,9 @@ Materia ListaMaterias::primero()
 	return valor;
 }
 
-Materia ListaMaterias::ultimo()
+EstudianteMatriculado ListaEstudiantesMatriculados::ultimo()
 {
-	Materia valor;
+	EstudianteMatriculado valor;
 
 	if (!this->esVacia()) {
 		valor = this->nodoUltimo()->getDato();
@@ -182,33 +181,33 @@ Materia ListaMaterias::ultimo()
 	return valor;
 }
 
-int ListaMaterias::posicion(Materia x)
+int ListaEstudiantesMatriculados::posicion(EstudianteMatriculado x)
 {
 	int pos = -1;
 
 	if (this->existe(x)) {
 		pos = 0;
 
-		if (this->getCab()->getDato().getCodigoMateria().compare(x.getCodigoMateria()) != 0) {
-			NodoDM* n = this->getCab();
+		if (this->getCab()->getDato().getCedula().compare(x.getCedula()) != 0) {
+			NodoDEM* n = this->getCab();
 
 			do {
 				n = n->getSgte();
 
 				pos++;
-			} while (n != this->getCab() && n->getDato().getCodigoMateria().compare(x.getCodigoMateria()) != 0);
+			} while (n != this->getCab() && n->getDato().getCedula().compare(x.getCedula()) != 0);
 		}
 	}
 
 	return pos;
 }
 
-Materia ListaMaterias::demeDato(int pos)
+EstudianteMatriculado ListaEstudiantesMatriculados::demeDato(int pos)
 {
-	Materia dato;
+	EstudianteMatriculado dato;
 
 	if (!this->esVacia() && pos >= 0 && pos < this->cantidad()) {
-		NodoDM* n = this->getCab();
+		NodoDEM* n = this->getCab();
 
 		for (int i = 0; i != pos; i++) {
 			n = n->getSgte();
@@ -220,14 +219,14 @@ Materia ListaMaterias::demeDato(int pos)
 	return dato;
 }
 
-bool ListaMaterias::existe(Materia x)
+bool ListaEstudiantesMatriculados::existe(EstudianteMatriculado x)
 {
 	return this->buscarNodo(x) != NULL;
 }
 
-void ListaMaterias::agregarInicio(Materia x)
+void ListaEstudiantesMatriculados::agregarInicio(EstudianteMatriculado x)
 {
-	NodoDM* n = new NodoDM(x);
+	NodoDEM* n = new NodoDEM(x);
 
 	if (!this->esVacia()) {
 		n->setSgte(this->getCab());
@@ -245,14 +244,14 @@ void ListaMaterias::agregarInicio(Materia x)
 	this->setLargo(this->getLargo() + 1);
 }
 
-void ListaMaterias::agregarFinal(Materia x)
+void ListaEstudiantesMatriculados::agregarFinal(EstudianteMatriculado x)
 {
 	if (this->esVacia()) {
 		this->agregarInicio(x);
 	}
 	else {
-		NodoDM* n = new NodoDM(x);
-		NodoDM* ult = this->nodoUltimo();
+		NodoDEM* n = new NodoDEM(x);
+		NodoDEM* ult = this->nodoUltimo();
 
 		n->setAnte(ult);
 		n->setSgte(this->getCab());
@@ -264,7 +263,7 @@ void ListaMaterias::agregarFinal(Materia x)
 	}
 }
 
-bool ListaMaterias::agregarEnPos(int pos, Materia x)
+bool ListaEstudiantesMatriculados::agregarEnPos(int pos, EstudianteMatriculado x)
 {
 	bool agregado = false;
 
@@ -276,8 +275,8 @@ bool ListaMaterias::agregarEnPos(int pos, Materia x)
 			this->agregarFinal(x);
 		}
 		else {
-			NodoDM* aux = this->getCab();
-			NodoDM* n = new NodoDM(x);
+			NodoDEM* aux = this->getCab();
+			NodoDEM* n = new NodoDEM(x);
 
 			for (int i = 0; i < pos; i++) {
 				aux = aux->getSgte();
@@ -298,13 +297,13 @@ bool ListaMaterias::agregarEnPos(int pos, Materia x)
 	return agregado;
 }
 
-bool ListaMaterias::agregarAntesDe(Materia x, Materia r)
+bool ListaEstudiantesMatriculados::agregarAntesDe(EstudianteMatriculado x, EstudianteMatriculado r)
 {
 	bool agregado = false;
-	NodoDM* aux = this->buscarNodo(r);
+	NodoDEM* aux = this->buscarNodo(r);
 
 	if (aux != NULL) {
-		NodoDM* n = new NodoDM(x);
+		NodoDEM* n = new NodoDEM(x);
 
 		n->setSgte(aux);
 		n->setAnte(aux->getAnte());
@@ -320,13 +319,13 @@ bool ListaMaterias::agregarAntesDe(Materia x, Materia r)
 	return agregado;
 }
 
-bool ListaMaterias::agregarDespuesDe(Materia x, Materia r)
+bool ListaEstudiantesMatriculados::agregarDespuesDe(EstudianteMatriculado x, EstudianteMatriculado r)
 {
 	bool agregado = false;
-	NodoDM* aux = this->buscarNodo(r);
+	NodoDEM* aux = this->buscarNodo(r);
 
 	if (aux != NULL) {
-		NodoDM* n = new NodoDM(x);
+		NodoDEM* n = new NodoDEM(x);
 
 		n->setSgte(aux->getSgte());
 		n->setAnte(aux);
@@ -342,7 +341,7 @@ bool ListaMaterias::agregarDespuesDe(Materia x, Materia r)
 	return agregado;
 }
 
-bool ListaMaterias::borrar(Materia x)
+bool ListaEstudiantesMatriculados::borrar(EstudianteMatriculado x)
 {
 	bool borrado = false;
 
@@ -355,7 +354,7 @@ bool ListaMaterias::borrar(Materia x)
 	return borrado;
 }
 
-bool ListaMaterias::borrarEnPos(int pos)
+bool ListaEstudiantesMatriculados::borrarEnPos(int pos)
 {
 	bool borrado = false;
 
@@ -367,7 +366,7 @@ bool ListaMaterias::borrarEnPos(int pos)
 			this->borrarNodo(this->nodoUltimo());
 		}
 		else {
-			NodoDM* aux = this->nodoPrimero();
+			NodoDEM* aux = this->nodoPrimero();
 
 			for (int i = 0; i < pos; i++) {
 				aux = aux->getSgte();
@@ -382,11 +381,11 @@ bool ListaMaterias::borrarEnPos(int pos)
 	return borrado;
 }
 
-void ListaMaterias::limpiar()
+void ListaEstudiantesMatriculados::limpiar()
 {
 	if (!this->esVacia()) {
-		NodoDM* aux = this->getCab();
-		NodoDM* sgte = NULL;
+		NodoDEM* aux = this->getCab();
+		NodoDEM* sgte = NULL;
 
 		do {
 			sgte = aux->getSgte();
@@ -400,10 +399,10 @@ void ListaMaterias::limpiar()
 	}
 }
 
-void ListaMaterias::desplegar()
+void ListaEstudiantesMatriculados::desplegar()
 {
 	if (!this->esVacia()) {
-		NodoDM* aux = this->getCab();
+		NodoDEM* aux = this->getCab();
 
 		for (int i = 0; i < this->cantidad(); i++) {
 			cout << "Posicion " << i << ", Valor = {" << endl;
@@ -415,12 +414,12 @@ void ListaMaterias::desplegar()
 	}
 }
 
-Materia ListaMaterias::consultar(string pCodigoMateria)
+EstudianteMatriculado ListaEstudiantesMatriculados::consultar(string pCedula)
 {
-	Materia e = Materia();
-	NodoDM* aux;
+	EstudianteMatriculado e = EstudianteMatriculado();
+	NodoDEM* aux;
 
-	e.setCodigoMateria(pCodigoMateria);
+	e.setCedula(pCedula);
 
 	aux = this->buscarNodo(e);
 
@@ -432,15 +431,15 @@ Materia ListaMaterias::consultar(string pCodigoMateria)
 	}
 }
 
-bool ListaMaterias::modificar(Materia x)
+bool ListaEstudiantesMatriculados::modificar(EstudianteMatriculado x)
 {
 	bool modificado = false;
-	NodoDM* aux = this->buscarNodo(x);
+	NodoDEM* aux = this->buscarNodo(x);
 
 	if (aux != NULL) {
-		Materia m = Materia(x.getCodigoMateria(), x.getNombre(), x.getDescripcion(), x.getGrupos());
+		EstudianteMatriculado e = EstudianteMatriculado(x.getCedula(), x.getNota(), x.getEstudiante());
 
-		aux->setDato(m);
+		aux->setDato(e);
 
 		modificado = true;
 	}

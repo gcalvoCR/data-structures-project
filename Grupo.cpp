@@ -77,3 +77,14 @@ void Grupo::desplegar()
 	cout << "Maximo: " << this->maximo << endl;
 	cout << "Matriculados: " << this->matriculados << endl;
 }
+
+ListaEstudiantesMatriculados Grupo::getListaMatricula()
+{
+    return listaMatricula;
+}
+
+void Grupo::setListaMatricula(ListaEstudiantesMatriculados listaMatricula)
+{
+    this->listaMatricula = listaMatricula;
+}
+

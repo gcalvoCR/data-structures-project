@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include "ListaEstudiantesMatriculados.h"
 using namespace std;
 class Grupo
 {
@@ -9,6 +10,8 @@ private:
 	bool estatus;
 	int maximo;
 	int matriculados;
+	ListaEstudiantesMatriculados listaMatricula;
+
 public:
 	Grupo();
 	Grupo(string, int, bool, int, int);
@@ -22,6 +25,9 @@ public:
 	void setMaximo(int);
 	int getMatriculados();
 	void setMatriculados(int);
+	ListaEstudiantesMatriculados getListaMatricula();
+	void setListaMatricula(ListaEstudiantesMatriculados listaMatricula);
 	void desplegar();
+
 };
 
