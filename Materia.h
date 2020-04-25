@@ -12,7 +12,7 @@ private:
 
 public:
     Materia();
-    Materia(string codigoMateria, string nombre, string descripcion, ListaGrupos grupos);
+    Materia(string codigoMateria, string nombre, string descripcion, ListaGrupos);
 
     string getCodigoMateria();
     void setCodigoMateria(string codigoMateria);

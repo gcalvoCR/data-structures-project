@@ -3,14 +3,18 @@
 
 Materia::Materia()
 {
+    this->codigoMateria = " ";
+    this->nombre = " ";
+    this->descripcion = " ";
+    this->grupos = ListaGrupos();
 }
 
-Materia::Materia(string codigoMateria, string nombre, string descripcion, ListaGrupos grupos)
+Materia::Materia(string codigoMateria, string nombre, string descripcion, ListaGrupos plistaGrupos)
 {
     this->codigoMateria = codigoMateria;
     this->nombre = nombre;
     this->descripcion = descripcion;
-	this->grupos = grupos;
+	this->grupos = plistaGrupos;
 }
 
 string Materia::getCodigoMateria()
@@ -55,9 +59,9 @@ void Materia::setGrupos(ListaGrupos grupos)
 
 void Materia::desplegar()
 {
-    cout << "Cedula: " << this->codigoMateria << endl;
+    cout << "Codigo: " << this->codigoMateria << endl;
     cout << "Nombre: " << this->nombre << endl;
-    cout << "Celular: " << this->descripcion << endl;
+    cout << "Descripcion: " << this->descripcion << endl;
 
 }
 

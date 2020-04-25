@@ -436,9 +436,9 @@ bool MaestroEstudiantes::modificar(Estudiante x)
 	NodoDE* aux = this->buscarNodo(x);
 
 	if (aux != NULL) {
-		Estudiante e = Estudiante(x.getCedula(), x.getNombre(), x.getCelular(), x.getCorreo(), x.isActivo());
+		//Estudiante e = Estudiante(x.getCedula(), x.getNombre(), x.getCelular(), x.getCorreo(), x.isActivo());
 
-		aux->setDato(e);
+		aux->setDato(x);
 
 		modificado = true;
 	}
