@@ -7,7 +7,6 @@ private:
 	NodoDM* ante;
 	NodoDM* sgte;
 
-
 public:
 	NodoDM();
 	NodoDM(Materia);

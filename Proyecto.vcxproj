@@ -148,24 +148,30 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Estudiante.cpp" />
+    <ClCompile Include="EstudianteMatriculado.cpp" />
     <ClCompile Include="Grupo.cpp" />
+    <ClCompile Include="ListaEstudiantesMatriculados.cpp" />
     <ClCompile Include="ListaGrupos.cpp" />
     <ClCompile Include="ListaMaterias.cpp" />
     <ClCompile Include="MaestroEstudiantes.cpp" />
     <ClCompile Include="Materia.cpp" />
     <ClCompile Include="NodoDE.cpp" />
+    <ClCompile Include="NodoDEM.cpp" />
     <ClCompile Include="NodoDG.cpp" />
     <ClCompile Include="NodoDM.cpp" />
     <ClCompile Include="Proyecto.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Estudiante.h" />
+    <ClInclude Include="EstudianteMatriculado.h" />
     <ClInclude Include="Grupo.h" />
+    <ClInclude Include="ListaEstudiantesMatriculados.h" />
     <ClInclude Include="ListaGrupos.h" />
     <ClInclude Include="ListaMaterias.h" />
     <ClInclude Include="MaestroEstudiantes.h" />
     <ClInclude Include="Materia.h" />
     <ClInclude Include="NodoDE.h" />
+    <ClInclude Include="NodoDEM.h" />
     <ClInclude Include="NodoDG.h" />
     <ClInclude Include="NodoDM.h" />
   </ItemGroup>
