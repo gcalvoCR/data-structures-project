@@ -2,6 +2,12 @@
 
 #include "MaestroEstudiantes.h"
 #include <iostream>
+#include <fstream>
+#include <string>
+#include <sstream>
+#include <algorithm>
+#include <iterator>
+using namespace std;
 
 NodoDM* ListaMaterias::getCab()
 {
@@ -144,10 +150,124 @@ void ListaMaterias::borrarNodo(NodoDM* dir)
 	}
 }
 
+void ListaMaterias::agregarAArchivo(Materia x)
+{
+	ofstream archivoMaterias;
+
+	archivoMaterias.open("Materias.txt", ios::app);
+
+	archivoMaterias << "Codigo:" << x.getCodigoMateria();
+	archivoMaterias << ",Nombre:" << x.getNombre();
+	archivoMaterias << ",Descripcion:" << x.getDescripcion() << endl;
+
+	archivoMaterias.close();
+}
+
+void ListaMaterias::borrarDeArchivo(Materia x)
+{
+	string materia;
+	ifstream archivoMaterias;
+	ofstream temp;
+
+	archivoMaterias.open("Materias.txt");
+	temp.open("Temp.txt");
+
+	while (getline(archivoMaterias, materia))
+	{
+		if (materia.find("Codigo:" + x.getCodigoMateria()) == std::string::npos) {
+			temp << materia << endl;
+		}
+	}
+
+	archivoMaterias.close();
+	temp.close();
+
+	remove("Materias.txt");
+	rename("Temp.txt", "Materias.txt");
+}
+
+void ListaMaterias::modificarEnArchivo(Materia x)
+{
+	string materia;
+	ifstream archivoMaterias;
+	ofstream temp;
+
+	archivoMaterias.open("Materias.txt");
+	temp.open("Temp.txt");
+
+	while (getline(archivoMaterias, materia))
+	{
+		if (materia.find("Codigo:" + x.getCodigoMateria()) != std::string::npos) {
+			temp << "Codigo:" << x.getCodigoMateria();
+			temp << ",Nombre:" << x.getNombre();
+			temp << ",Descripcion:" << x.getDescripcion() << endl;
+		}
+		else {
+			temp << materia << endl;
+		}
+	}
+
+	archivoMaterias.close();
+	temp.close();
+
+	remove("Materias.txt");
+	rename("Temp.txt", "Materias.txt");
+}
+
 ListaMaterias::ListaMaterias()
 {
-	this->cab = NULL;
+	string materia;
+	ifstream archivoMaterias("Materias.txt");
+
 	this->largo = 0;
+	this->cab = NULL;
+
+	if (archivoMaterias.is_open())
+	{
+		while (getline(archivoMaterias, materia))
+		{
+			stringstream ss(materia);
+			string dato;
+			Materia m;
+			NodoDM* n;
+
+			while (std::getline(ss, dato, ','))
+			{
+				if (dato.find("Codigo") != std::string::npos) {
+					m.setCodigoMateria(dato.substr(dato.find(":") + 1));
+				}
+				else if (dato.find("Nombre") != std::string::npos) {
+					m.setNombre(dato.substr(dato.find(":") + 1));
+				}
+				else if (dato.find("Descripcion") != std::string::npos) {
+					m.setDescripcion(dato.substr(dato.find(":") + 1));
+				}
+			}
+
+			n = new NodoDM(m);
+
+			if (this->esVacia()) {
+				n->setSgte(n);
+				n->setAnte(n);
+
+				this->setCab(n);
+			}
+			else {
+				NodoDM* ult = this->nodoUltimo();
+
+				n->setAnte(ult);
+				n->setSgte(this->getCab());
+
+				ult->setSgte(n);
+
+				this->getCab()->setAnte(n);
+			}
+
+			this->setLargo(this->getLargo() + 1);
+		}
+
+		archivoMaterias.close();
+	}
 }
 
 bool ListaMaterias::esVacia()
@@ -243,6 +363,8 @@ void ListaMaterias::agregarInicio(Materia x)
 
 	this->setCab(n);
 	this->setLargo(this->getLargo() + 1);
+
+	this->agregarAArchivo(x);
 }
 
 void ListaMaterias::agregarFinal(Materia x)
@@ -261,6 +383,8 @@ void ListaMaterias::agregarFinal(Materia x)
 		this->getCab()->setAnte(n);
 
 		this->setLargo(this->getLargo() + 1);
+
+		this->agregarAArchivo(x);
 	}
 }
 
@@ -290,6 +414,8 @@ bool ListaMaterias::agregarEnPos(int pos, Materia x)
 			aux->setAnte(n);
 
 			this->setLargo(this->getLargo() + 1);
+
+			this->agregarAArchivo(x);
 		}
 
 		agregado = true;
@@ -315,6 +441,8 @@ bool ListaMaterias::agregarAntesDe(Materia x, Materia r)
 		agregado = true;
 
 		this->setLargo(this->getLargo() + 1);
+
+		this->agregarAArchivo(x);
 	}
 
 	return agregado;
@@ -337,6 +465,8 @@ bool ListaMaterias::agregarDespuesDe(Materia x, Materia r)
 		agregado = true;
 
 		this->setLargo(this->getLargo() + 1);
+
+		this->agregarAArchivo(x);
 	}
 
 	return agregado;
@@ -353,6 +483,8 @@ bool ListaMaterias::borrar(Materia x)
 		this->borrarNodo(this->buscarNodo(x));
 
 		borrado = true;
+
+		this->borrarDeArchivo(x);
 	}
 
 	return borrado;
@@ -365,9 +497,13 @@ bool ListaMaterias::borrarEnPos(int pos)
 
 	if (!this->esVacia() && pos >= 0 && pos < this->cantidad()) {
 		if (pos == 0) {
+			this->borrarDeArchivo(this->nodoPrimero()->getDato());
+
 			this->borrarNodo(this->nodoPrimero());
 		}
 		else if (pos == this->cantidad() - 1) {
+			this->borrarDeArchivo(this->nodoUltimo()->getDato());
+
 			this->borrarNodo(this->nodoUltimo());
 		}
 		else {
@@ -376,6 +512,8 @@ bool ListaMaterias::borrarEnPos(int pos)
 			for (int i = 0; i < pos; i++) {
 				aux = aux->getSgte();
 			}
+
+			this->borrarDeArchivo(aux->getDato());
 
 			this->borrarNodo(aux);
 		}
@@ -401,6 +539,8 @@ void ListaMaterias::limpiar()
 		} while (aux != this->getCab());
 
 		this->setLargo(0);
+
+		remove("Materias.txt");
 	}
 }
 
@@ -442,11 +582,11 @@ bool ListaMaterias::modificar(Materia x)
 	NodoDM* aux = this->buscarNodo(x);
 
 	if (aux != NULL) {
-		//Materia m = Materia(x.getCodigoMateria(), x.getNombre(), x.getDescripcion(), x.getGrupos());
-
 		aux->setDato(x);
 
 		modificado = true;
+
+		this->modificarEnArchivo(x);
 	}
 
 	return modificado;
