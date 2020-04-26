@@ -288,7 +288,6 @@ void SistemaMatricula::modificarMateria()
 	{
 		string descripcion;
 		cout << "Ingrese por favor la nueva descripcion de la materia[actual: " << m.getDescripcion() << "]" << endl;
-		cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 		getline(std::cin, descripcion);
 
 		m.setDescripcion(descripcion);
@@ -309,6 +308,10 @@ void SistemaMatricula::mostrarDetallesMateria()
 		Materia m = listaMaterias.demeDato(i);
 		ListaGrupos lg = m.getGrupos();
 
+		if (lg.cantidad() == 0) {
+			cout << "La materia : " << m.getNombre() << " no tiene grupos asociados." << endl;
+
+		}
 
 		int cont = 0;
 
