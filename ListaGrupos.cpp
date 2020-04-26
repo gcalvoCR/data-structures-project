@@ -436,9 +436,9 @@ bool ListaGrupos::modificar(Grupo x)
 	NodoDG* aux = this->buscarNodo(x);
 
 	if (aux != NULL) {
-		Grupo g = Grupo(x.getMateria(), x.getNumero(), x.getEstatus(), x.getMaximo(), x.getMatriculados());
+		//Grupo g = Grupo(x.getMateria(), x.getNumero(), x.getEstatus(), x.getMaximo(), x.getMatriculados());
 
-		aux->setDato(g);
+		aux->setDato(x);
 
 		modificado = true;
 	}

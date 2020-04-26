@@ -5,18 +5,18 @@ class EstudianteMatriculado
 {
 private:
 	string cedula;
-	string nota;
+	int nota;
 	NodoDE* estudiante;
 
 public:
     EstudianteMatriculado();
-    EstudianteMatriculado(string, string, NodoDE*);
+    EstudianteMatriculado(string, int, NodoDE*);
 
     string getCedula();
     void setCedula(string cedula);
 
-    string getNota();
-    void setNota(string nota);
+    int getNota();
+    void setNota(int nota);
 
     NodoDE* getEstudiante();
     void setEstudiante(NodoDE* estudiante);

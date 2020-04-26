@@ -572,12 +572,33 @@ bool MaestroEstudiantes::modificar(Estudiante x)
 	NodoDE* aux = this->buscarNodo(x);
 
 	if (aux != NULL) {
-		Estudiante e = Estudiante(x.getCedula(), x.getNombre(), x.getCelular(), x.getCorreo(), x.isActivo());
+		//Estudiante e = Estudiante(x.getCedula(), x.getNombre(), x.getCelular(), x.getCorreo(), x.isActivo());
 
-		aux->setDato(e);
+		aux->setDato(x);
 
 		modificado = true;
 	}
 
 	return modificado;
+}
+
+NodoDE* MaestroEstudiantes::buscarNodo(string cedula)
+{
+	NodoDE* aux = NULL;
+
+	if (!this->esVacia()) {
+		aux = this->getCab();
+
+		if (this->getCab()->getDato().getCedula().compare(cedula) != 0) {
+			do {
+				aux = aux->getSgte();
+			} while (aux != this->getCab() && aux->getDato().getCedula().compare(cedula) != 0);
+
+			if (aux->getDato().getCedula().compare(cedula) != 0) {
+				aux = NULL;
+			}
+		}
+	}
+
+	return aux;
 }

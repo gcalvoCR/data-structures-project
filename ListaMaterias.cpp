@@ -438,9 +438,9 @@ bool ListaMaterias::modificar(Materia x)
 	NodoDM* aux = this->buscarNodo(x);
 
 	if (aux != NULL) {
-		Materia m = Materia(x.getCodigoMateria(), x.getNombre(), x.getDescripcion(), x.getGrupos());
+		//Materia m = Materia(x.getCodigoMateria(), x.getNombre(), x.getDescripcion(), x.getGrupos());
 
-		aux->setDato(m);
+		aux->setDato(x);
 
 		modificado = true;
 	}

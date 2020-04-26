@@ -44,5 +44,7 @@ public:
 
 	Estudiante consultar(string);
 	bool modificar(Estudiante);
+
+	NodoDE* buscarNodo(string cedula);
 };
 
