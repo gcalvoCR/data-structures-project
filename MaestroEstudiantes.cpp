@@ -186,6 +186,36 @@ void MaestroEstudiantes::borrarDeArchivo(Estudiante x)
 	rename("Temp.txt", "Estudiantes.txt");
 }
 
+void MaestroEstudiantes::modificarEnArchivo(Estudiante x)
+{
+	string estudiante;
+	ifstream archivoEstudiantes;
+	ofstream temp;
+
+	archivoEstudiantes.open("Estudiantes.txt");
+	temp.open("Temp.txt");
+
+	while (getline(archivoEstudiantes, estudiante))
+	{
+		if (estudiante.find("Cedula:" + x.getCedula()) != std::string::npos) {
+			temp << "Cedula:" << x.getCedula();
+			temp << ",Nombre:" << x.getNombre();
+			temp << ",Celular:" << x.getCelular();
+			temp << ",Correo:" << x.getCorreo();
+			temp << ",Activo:" << x.isActivo() << endl;
+		}
+		else {
+			temp << estudiante << endl;
+		}
+	}
+
+	archivoEstudiantes.close();
+	temp.close();
+
+	remove("Estudiantes.txt");
+	rename("Temp.txt", "Estudiantes.txt");
+}
+
 MaestroEstudiantes::MaestroEstudiantes()
 {
 	string estudiante;
@@ -558,11 +588,11 @@ bool MaestroEstudiantes::modificar(Estudiante x)
 	NodoDE* aux = this->buscarNodo(x);
 
 	if (aux != NULL) {
-		//Estudiante e = Estudiante(x.getCedula(), x.getNombre(), x.getCelular(), x.getCorreo(), x.isActivo());
-
 		aux->setDato(x);
 
 		modificado = true;
+
+		this->modificarEnArchivo(x);
 	}
 
 	return modificado;
