@@ -368,20 +368,6 @@ void MaestroEstudiantes::agregarFinal(Estudiante x)
 	}
 }
 
-int main()
-{
-	MaestroEstudiantes m;
-	Estudiante e;
-
-	m.desplegar();
-
-	e.setCedula("123456789");
-
-	m.borrar(e);
-
-	m.desplegar();
-}
-
 bool MaestroEstudiantes::agregarEnPos(int pos, Estudiante x)
 {
 	bool agregado = false;

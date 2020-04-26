@@ -502,12 +502,15 @@ void eliminarGrupo()
     }
     else
     {
-        Grupo g = m.getGrupos().consultar(numero);
+		ListaGrupos listaGrupos = m.getGrupos();
+        Grupo g = listaGrupos.consultar(numero);
 
-        bool eliminado = m.getGrupos().borrar(g);
+        bool eliminado = listaGrupos.borrar(g);
 
         if (eliminado)
         {
+			m.setGrupos(listaGrupos);
+			listaMaterias.modificar(m);
             cout << "El grupo " << to_string(g.getNumero()) << " fue eliminado del sistema." << endl;
             cout << endl;
         }

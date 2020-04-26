@@ -113,10 +113,15 @@ void ListaGrupos::borrarNodo(NodoDG* dir)
 		NodoDG* aux = this->getCab();
 
 		if (this->getCab() == dir) {
-			this->getCab()->getSgte()->setAnte(this->getCab()->getAnte());
-			this->getCab()->getAnte()->setSgte(this->getCab()->getSgte());
+			if (this->getLargo() > 1) {
+				this->getCab()->getSgte()->setAnte(this->getCab()->getAnte());
+				this->getCab()->getAnte()->setSgte(this->getCab()->getSgte());
 
-			this->setCab(this->getCab()->getSgte());
+				this->setCab(this->getCab()->getSgte());
+			}
+			else {
+				this->setCab(NULL);
+			}
 
 			delete aux;
 
