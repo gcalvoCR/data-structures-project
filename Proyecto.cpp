@@ -173,6 +173,11 @@ void registrarEstudiante() {
 
 void listarEstudiantes()
 {
+	if (maestroEstudiantes.cantidad() == 0) {
+		cout << endl;
+		cout << "No hay estudiantes registradas." << endl;
+		cout << endl;
+	}
 	maestroEstudiantes.desplegar();
 }
 
@@ -316,6 +321,11 @@ void registrarMateria() {
 
 void listarMaterias()
 {
+	if (listaMaterias.cantidad() == 0) {
+		cout << endl;
+		cout << "No hay materias registradas." << endl;
+		cout << endl;
+	}
 	listaMaterias.desplegar();
 }
 
@@ -450,6 +460,11 @@ void listarGruposPorMateria()
 	}
 	else
 	{
+		if (m.getGrupos().cantidad() == 0) {
+			cout << endl;
+			cout << "La materia no tiene grupos registrados." << endl;
+			cout << endl;
+		}
 		for (int i = 0; i < m.getGrupos().cantidad(); i++)
 		{
 			m.getGrupos().demeDato(i).desplegar();
@@ -720,8 +735,13 @@ void matricularEstudiante() {
 		ListaEstudiantesMatriculados lm = g.getListaMatricula();
 
 		lm.agregarFinal(em);
+		
 
 		g.setListaMatricula(lm);
+
+		int matriculados = g.getMatriculados();
+
+		g.setMatriculados(matriculados + 1);
 
 		lem.modificar(g);
 
@@ -758,12 +778,19 @@ void listarMatriculadosPorCurso()
 
 		if (g.getMateria() == " ")
 		{
-			cout << "El curso no se fue registrado" << endl;
+			cout << endl;
+			cout << "El grupo no esta registrado en el sistema." << endl;
 			cout << endl;
 		}
 		else
 		{
 			ListaEstudiantesMatriculados lm = g.getListaMatricula();
+
+			if (lm.cantidad() == 0) {
+				cout << endl;
+				cout << "El grupo no tiene alumnos registrados." << endl;
+				cout << endl;
+			}
 			for (int i = 0; i < g.getListaMatricula().cantidad(); i++)
 			{
 				lm.demeDato(i).desplegar();
@@ -834,7 +861,8 @@ void retirarEstudianteDeCurso()
 		cout << "Ingrese por favor el numero de grupo:" << endl;
 		cin >> numero;
 
-		Grupo g = m.getGrupos().consultar(numero);
+		ListaGrupos lg = m.getGrupos();
+		Grupo g = lg.consultar(numero);
 
 		if (g.getMateria() == " ")
 		{
@@ -854,7 +882,14 @@ void retirarEstudianteDeCurso()
 
 			if (eliminado)
 			{
-				cout << "El estudiante con cedula " << cedula << " fue eliminado del sistema." << endl;
+				g.setListaMatricula(lm);
+
+				int matriculados = g.getMatriculados();
+				g.setMatriculados(matriculados -1);
+
+				lg.modificar(g);
+
+				cout << "El estudiante con cedula " << cedula << " fue retirado del grupo." << endl;
 				cout << endl;
 			}
 			else
@@ -862,10 +897,8 @@ void retirarEstudianteDeCurso()
 				cout << "El estudiante que intenta eliminar no esta registrado en el grupo." << endl;
 				cout << endl;
 			}
-
 		}
 	}
-
 }
 
 void modificarNotaEstudianteMatriculado()
@@ -948,6 +981,31 @@ void totalCursosPorMateria()
 		cout << "Materia: " << listaMaterias.demeDato(i).getNombre() << ", cantidad de grupos: " << to_string(listaMaterias.demeDato(i).getGrupos().cantidad()) << endl;
 		cout << endl;
 	}
+}
+
+void totalEstudiantesPorMateria()
+{
+	cout << endl;
+
+	for (int i = 0; i < listaMaterias.cantidad(); i++)
+	{
+		Materia m = listaMaterias.demeDato(i);
+		ListaGrupos lg = m.getGrupos();
+
+
+		int cont = 0;
+
+		for (int j = 0; j < lg.cantidad(); j++)
+		{
+			
+			cont += lg.demeDato(j).getMatriculados();
+			
+		}
+
+		cout << "Materia: " << listaMaterias.demeDato(i).getNombre() << ", cantidad de alumnos matriculados: " << to_string(cont) << endl;
+		cout << endl;
+	}
+
 }
 
 #pragma endregion
@@ -1178,7 +1236,8 @@ bool ejecutarAccionEstadisticas(int popcion) {
 		break;
 
 	case 3:
-		//sin implementar
+		totalEstudiantesPorMateria();
+		system("PAUSE");
 		break;
 
 	case 4:
