@@ -453,6 +453,7 @@ void listarGruposPorMateria()
         for (int i = 0; i < m.getGrupos().cantidad(); i++)
         {
             m.getGrupos().demeDato(i).desplegar();
+            cout << endl;
         }
     }
 }
@@ -705,7 +706,9 @@ void matricularEstudiante() {
     }
     else
     {
-        Grupo g = m.getGrupos().consultar(numero);
+        ListaGrupos lem= m.getGrupos();
+
+        Grupo g = lem.consultar(numero);
 
         NodoDE* e = maestroEstudiantes.buscarNodo(cedula);
 
@@ -719,16 +722,7 @@ void matricularEstudiante() {
 
         lm.modificar(em);
 
-
-       /* ListaGrupos listaGrupos = m.getGrupos();
-
-        listaGrupos.agregarFinal(g);
-
-        m.setGrupos(listaGrupos);
-
-        listaMaterias.modificar(m);*/
-
-        //g.getListaMatricula().agregarFinal(em);
+        lm = g.getListaMatricula();
 
         cout << "El estudiante " << cedula << " fue matriculado en la materia " << materia << "." << endl;
         cout << endl;
@@ -768,6 +762,7 @@ void listarMatriculadosPorCurso()
             for (int i = 0; i < g.getListaMatricula().cantidad(); i++)
             {
                 lm.demeDato(i).desplegar();
+                cout << endl;
             }
         }  
     }
