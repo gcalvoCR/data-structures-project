@@ -1,4 +1,4 @@
-# Sistema de matríula de estudiantes
+# Sistema de matrícula de estudiantes
 
 Esta es una aplicación en consola en C++ donde se exploran las estructuras de datos básicas:
 
