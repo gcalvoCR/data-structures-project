@@ -350,6 +350,11 @@ bool ListaGrupos::borrar(Grupo x)
 	bool borrado = false;
 
 	if (this->existe(x)) {
+		ListaEstudiantesMatriculados lEM = x.getListaMatricula();
+		lEM.limpiar();
+
+		x.setListaMatricula(lEM);
+
 		this->borrarNodo(this->buscarNodo(x));
 
 		borrado = true;
