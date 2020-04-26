@@ -44,8 +44,14 @@ public:
 
 	//Acciones estadisticas
 	void totalMaterias();
-	void totalCursosPorMateria();
+	void totalGruposPorMateria();
 	void totalEstudiantesPorMateria();
+	void grupoMenosMatriculados();
+	void grupoMasMatriculados();
+	void estudiantesActivos();
+	void estudiantesInactivos();
+	void TopEstudiantesPorMateria();
+	void estudiantesMaximaNotaPorMateria();
 	
 };
 

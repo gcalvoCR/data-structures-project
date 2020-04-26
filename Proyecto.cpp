@@ -29,7 +29,7 @@ void mostrarMenuMaterias() {
 	cout << "4.  Buscar materia por codigo" << endl;
 	cout << "5.  Modificar materia" << endl;
 	cout << "6.  Mostrar detalle de materia" << endl;
-	cout << ". " << endl;
+	cout << " " << endl;
 	cout << "7.  Volver a menu principal" << flush;
 	cout << endl;
 
@@ -48,7 +48,7 @@ void mostrarMenuEstudiantes() {
 	cout << "6.  Mostrar detalle de estudiante" << endl;
 	cout << "7.  Desactivar estudiante" << endl;
 	cout << "8.  Activar estudiante" << endl;
-	cout << ". " << endl;
+	cout << " " << endl;
 	cout << "9.  Volver a menu principal" << endl;
 	cout << endl;
 
@@ -66,7 +66,7 @@ void mostrarMenuGrupos() {
 	cout << "5.  Modificar grupo" << endl;
 	cout << "6.  Activar grupo" << endl;
 	cout << "7.  Cerrar grupo" << endl;
-	cout << ". " << endl;
+	cout << " " << endl;
 	cout << "8.  Volver a menu principal" << endl;
 	cout << endl;
 
@@ -100,12 +100,12 @@ void mostrarMenuEstadisticas() {
 	cout << "5.  Grupo con mayor cantidad de estudiantes matriculados" << endl;
 	cout << "6.  Lista de estudiantes activos" << endl;
 	cout << "7.  Lista de estudiantes inactivos" << endl;
-	cout << "8.  Lista de 10 mejores estudiantes" << endl;
-	cout << "9.  Lista de 10 mejores estudiantes" << endl;
-	cout << "10. Lista de estudiantes por materia con nota maxima (100)" << endl;
-	cout << ". " << endl;
-	cout << "11.  Volver a menu principal" << endl;
+	cout << "8.  Lista del mejor estudiante de cada materia" << endl;
+	cout << "9. Lista de estudiantes por materia con nota maxima (100)" << endl;
+	cout << " " << endl;
+	cout << "10.  Volver a menu principal" << endl;
 	cout << endl;
+
 
 }
 
@@ -344,7 +344,7 @@ bool ejecutarAccionEstadisticas(int popcion) {
 		break;
 
 	case 2:
-		matricula.totalCursosPorMateria();
+		matricula.totalGruposPorMateria();
 		system("PAUSE");
 		break;
 
@@ -354,36 +354,32 @@ bool ejecutarAccionEstadisticas(int popcion) {
 		break;
 
 	case 4:
-		//sin implementar
+		matricula.grupoMenosMatriculados();
 		system("PAUSE");
 		break;
 
 	case 5:
-		//sin implementar
+		matricula.grupoMasMatriculados();
 		system("PAUSE");
 		break;
 
 	case 6:
-		//sin implementar
+		matricula.estudiantesActivos();
 		system("PAUSE");
 		break;
 	case 7:
-		//sin implementar
+		matricula.estudiantesInactivos();
 		system("PAUSE");
 		break;
 	case 8:
-		//sin implementar
+		matricula.TopEstudiantesPorMateria();
 		system("PAUSE");
 		break;
 	case 9:
-		//sin implementar
+		matricula.estudiantesMaximaNotaPorMateria();
 		system("PAUSE");
-		break;
+		break;;
 	case 10:
-		//sin implementar
-		system("PAUSE");
-		break;
-	case 11:
 		noSalir = false;
 		break;
 

@@ -852,7 +852,7 @@ void SistemaMatricula::totalMaterias()
 	cout << endl;
 }
 
-void SistemaMatricula::totalCursosPorMateria()
+void SistemaMatricula::totalGruposPorMateria()
 {
 	cout << endl;
 
