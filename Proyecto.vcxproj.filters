@@ -54,6 +54,9 @@
     <ClCompile Include="ListaEstudiantesMatriculados.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SistemaMatricula.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Estudiante.h">
@@ -90,6 +93,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ListaEstudiantesMatriculados.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SistemaMatricula.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
