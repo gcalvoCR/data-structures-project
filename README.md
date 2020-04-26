@@ -5,7 +5,7 @@ Esta es una aplicación en consola en C++ donde se exploran las estructuras de d
 - Listas dobles circulares
 - Listas de listas
 
-Ademas:
+Además:
 - Realiza la persistencia de datos en archivos ```.txt```
 
 ## Requisitos
@@ -19,9 +19,9 @@ Una vez que el proyecto corre se pueden realizar CRUDS completos de:
    - Estudiantes
    - Materias
    - Grupos
-   - Matricula
+   - Matrícula
 
-Además se pueden consultar:
+Además, se pueden consultar:
    - Estadísticas generales del sistema.
 
    
