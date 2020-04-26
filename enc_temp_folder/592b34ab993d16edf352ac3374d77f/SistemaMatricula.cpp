@@ -45,11 +45,10 @@ void SistemaMatricula::listarEstudiantes()
 
 void SistemaMatricula::listarEstudiantesDetalladamente()
 {
-	cout << "Estudiantes registradas:" << endl;
-	cout << endl;
-	if (maestroEstudiantes.cantidad() == 0) 
-	{
-		cout << "No hay estudiantes registradas." << endl;;
+	if (maestroEstudiantes.cantidad() == 0) {
+		cout << endl;
+		cout << "No hay estudiantes registradas." << endl;
+		cout << endl;
 	}
 	maestroEstudiantes.desplegar();
 }
