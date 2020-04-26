@@ -347,12 +347,16 @@ bool ListaMaterias::borrar(Materia x)
 	bool borrado = false;
 
 	if (this->existe(x)) {
+		ListaGrupos lg = x.getGrupos();
+		lg.limpiar();
+
 		this->borrarNodo(this->buscarNodo(x));
 
 		borrado = true;
 	}
 
 	return borrado;
+
 }
 
 bool ListaMaterias::borrarEnPos(int pos)

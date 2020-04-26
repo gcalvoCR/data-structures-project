@@ -31,27 +31,35 @@ void SistemaMatricula::listarEstudiantes()
 {
 	if (maestroEstudiantes.cantidad() == 0) {
 		cout << endl;
-		cout << "No hay estudiantes registradas." << endl;
+		cout << "No hay estudiantes registrados." << endl;
 		cout << endl;
 	}
-
-	for (int i = 0; i < maestroEstudiantes.cantidad(); i++)
+	else
 	{
-		Estudiante e = maestroEstudiantes.demeDato(i);
-		cout << "Ced: " << e.getCedula() <<", nombre: "<< e.getNombre() << endl;
+		cout << "Estudiantes registradas:" << endl;
 		cout << endl;
+		for (int i = 0; i < maestroEstudiantes.cantidad(); i++)
+		{
+			Estudiante e = maestroEstudiantes.demeDato(i);
+			cout << "Ced: " << e.getCedula() << ", nombre: " << e.getNombre() << endl;
+		}
 	}
 }
 
 void SistemaMatricula::listarEstudiantesDetalladamente()
 {
-	cout << "Estudiantes registradas:" << endl;
-	cout << endl;
+
 	if (maestroEstudiantes.cantidad() == 0) 
 	{
 		cout << "No hay estudiantes registradas." << endl;;
 	}
-	maestroEstudiantes.desplegar();
+	else
+	{
+		cout << "Estudiantes registradas:" << endl;
+		cout << endl;
+		maestroEstudiantes.desplegar();
+	}
+
 }
 
 void SistemaMatricula::eliminarEstudiante()
@@ -190,7 +198,8 @@ void SistemaMatricula::desactivarEstudiante()
 
 void SistemaMatricula::registrarMateria() {
 
-	string codigo, nombre, descripcion;
+	string codigo, nombre;
+	string descripcion ="";
 
 	cout << "Ingrese por favor los siguientes datos:" << endl;
 	cout << endl;
@@ -201,7 +210,7 @@ void SistemaMatricula::registrarMateria() {
 	getline(std::cin, nombre);
 	cout << "Descripcion [default: sin descripcion]:" << endl;
 	getline(std::cin, descripcion);
-	if (descripcion.length() != 0) {
+	if (descripcion.length() == 0) {
 		descripcion = "Sin descripcion";
 	}
 
@@ -641,7 +650,6 @@ void SistemaMatricula::matricularEstudiante() {
 
 	cout << endl;
 	cout << "Codigo de la materia:" << endl;
-	cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 	getline(std::cin, materia);
 	cout << "Numero de grupo:" << endl;
 	cin >> numero;
@@ -766,7 +774,6 @@ void SistemaMatricula::mostrarDetallesEstudianteMatriculado()
 		else
 		{
 			cout << "Ingrese por favor la cedula del estudiante matriculado:" << endl;
-			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 			getline(std::cin, cedula);
 
 			ListaEstudiantesMatriculados lm = g.getListaMatricula();
@@ -810,7 +817,6 @@ void SistemaMatricula::retirarEstudianteDeGrupo()
 		else
 		{
 			cout << "Ingrese por favor la cedula del estudiante matriculado:" << endl;
-			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 			getline(std::cin, cedula);
 
 			ListaEstudiantesMatriculados lm = g.getListaMatricula();
@@ -872,7 +878,6 @@ void SistemaMatricula::modificarNotaEstudianteMatriculado()
 		else
 		{
 			cout << "Ingrese por favor la cedula del estudiante matriculado:" << endl;
-			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 			getline(std::cin, cedula);
 
 			cout << "Ingrese por favor la nota del estudiante matriculado:" << endl;

@@ -130,6 +130,11 @@ void ListaEstudiantesMatriculados::borrarNodo(NodoDEM* dir)
 				this->setCab(NULL);
 			}
 
+			NodoDE* e = new NodoDE();
+
+			aux->getDato().setEstudiante(e);
+
+			delete e;
 			delete aux;
 
 			this->setLargo(this->getLargo() - 1);
@@ -146,6 +151,11 @@ void ListaEstudiantesMatriculados::borrarNodo(NodoDEM* dir)
 					aux->getSgte()->setAnte(aux->getAnte());
 				}
 
+				NodoDE* e = new NodoDE();
+
+				aux->getDato().setEstudiante(e);
+
+				delete e;
 				delete aux;
 
 				this->setLargo(this->getLargo() - 1);
