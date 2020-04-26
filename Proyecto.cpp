@@ -711,7 +711,24 @@ void matricularEstudiante() {
 
         EstudianteMatriculado em = EstudianteMatriculado(cedula, -1, e);
 
-        g.getListaMatricula().agregarFinal(em);
+        ListaEstudiantesMatriculados lm = g.getListaMatricula();
+
+        lm.agregarFinal(em);
+
+        g.setListaMatricula(lm);
+
+        lm.modificar(em);
+
+
+       /* ListaGrupos listaGrupos = m.getGrupos();
+
+        listaGrupos.agregarFinal(g);
+
+        m.setGrupos(listaGrupos);
+
+        listaMaterias.modificar(m);*/
+
+        //g.getListaMatricula().agregarFinal(em);
 
         cout << "El estudiante " << cedula << " fue matriculado en la materia " << materia << "." << endl;
         cout << endl;
@@ -758,14 +775,11 @@ void listarMatriculadosPorCurso()
 
 void mostrarDetallesEstudianteMatriculado()
 {
-    string codigo;
+    string codigo, cedula;
     int numero;
 
     cout << "Ingrese por favor el codigo de la materia:" << endl;
     cin >> codigo;
-
-    cout << "Ingrese por favor el numero de grupo:" << endl;
-    cin >> numero;
 
     Materia m = listaMaterias.consultar(codigo);
 
@@ -776,46 +790,80 @@ void mostrarDetallesEstudianteMatriculado()
     }
     else
     {
+        cout << "Ingrese por favor el numero de grupo:" << endl;
+        cin >> numero;
+
         Grupo g = m.getGrupos().consultar(numero);
-        g.desplegar();
+
+        if (g.getMateria() == " ")
+        {
+            cout << "El curso no se fue registrado" << endl;
+            cout << endl;
+        }
+        else
+        {
+            cout << "Ingrese por favor la cedula del estudiante matriculado:" << endl;
+            cin >> cedula;
+
+            ListaEstudiantesMatriculados lm = g.getListaMatricula();
+
+            EstudianteMatriculado em = lm.consultar(cedula);
+
+            em.desplegar();
+        }
     }
 }
 
 void retirarEstudianteDeCurso()
 {
-    string codigo;
+    string codigo, cedula;
     int numero;
 
     cout << "Ingrese por favor el codigo de la materia:" << endl;
     cin >> codigo;
 
-    cout << "Ingrese por favor el numero de grupo:" << endl;
-    cin >> numero;
-
     Materia m = listaMaterias.consultar(codigo);
 
-    if (m.getNombre() == "")
+    if (m.getNombre() == " ")
     {
         cout << "La materia no se encuentra registrada" << endl;
         cout << endl;
     }
     else
     {
+        cout << "Ingrese por favor el numero de grupo:" << endl;
+        cin >> numero;
+
         Grupo g = m.getGrupos().consultar(numero);
 
-        bool eliminado = m.getGrupos().borrar(g);
-
-        if (eliminado)
+        if (g.getMateria() == " ")
         {
-            cout << "El grupo " << to_string(g.getNumero()) << " fue eliminado del sistema." << endl;
+            cout << "El curso no se fue registrado" << endl;
             cout << endl;
         }
         else
         {
-            cout << "El grupo que intenta eliminar no esta registrado." << endl;
-            cout << endl;
-        }
+            cout << "Ingrese por favor la cedula del estudiante matriculado:" << endl;
+            cin >> cedula;
 
+            ListaEstudiantesMatriculados lm = g.getListaMatricula();
+
+            EstudianteMatriculado em = lm.consultar(cedula);
+
+            bool eliminado = lm.borrar(em);
+
+            if (eliminado)
+            {
+                cout << "El estudiante con cedula " << cedula << " fue eliminado del sistema." << endl;
+                cout << endl;
+            }
+            else
+            {
+                cout << "El estudiante que intenta eliminar no esta registrado en el grupo." << endl;
+                cout << endl;
+            }
+
+        }
     }
 
 }
@@ -823,53 +871,87 @@ void retirarEstudianteDeCurso()
 void modificarNotaEstudianteMatriculado()
 {
 
-    string codigo;
-    int numero;
+    string codigo, cedula;
+    int numero, nota;
 
     cout << "Ingrese por favor el codigo de la materia:" << endl;
     cin >> codigo;
 
-    cout << "Ingrese por favor el numero de grupo:" << endl;
-    cin >> numero;
-
     Materia m = listaMaterias.consultar(codigo);
 
-    if (m.getNombre() == "")
+    if (m.getNombre() == " ")
     {
         cout << "La materia no se encuentra registrada" << endl;
         cout << endl;
     }
     else
     {
+        cout << "Ingrese por favor el numero de grupo:" << endl;
+        cin >> numero;
+
         Grupo g = m.getGrupos().consultar(numero);
 
-        if (g.getMateria() != " ")
+        if (g.getMateria() == " ")
         {
-            int tam;
-            cout << "Ingrese por favor la nueva cantidad maxima: [ " << to_string(g.getMaximo()) << "]" << endl;
-            cin >> tam;
+            cout << "El curso no se fue registrado" << endl;
+            cout << endl;
+        }
+        else
+        {
+            cout << "Ingrese por favor la cedula del estudiante matriculado:" << endl;
+            cin >> cedula;
 
-            g.setMaximo(tam);
+            cout << "Ingrese por favor la nota del estudiante matriculado:" << endl;
+            cin >> nota;
 
-            bool modificado = m.getGrupos().modificar(g);
+            ListaEstudiantesMatriculados lm = g.getListaMatricula();
+
+            EstudianteMatriculado em = lm.consultar(cedula);
+
+            em.setNota(nota);
+
+            bool modificado = lm.modificar(em);
+
             if (modificado)
             {
-                cout << "El grupo fue modificado correctamente." << endl;
+                cout << "El estudiante con cedula " << cedula << " fue actualizado exitosamente." << endl;
                 cout << endl;
             }
             else
             {
-                cout << "No fue posible modificar el grupo." << endl;
+                cout << "El estudiante que intenta actualizar no esta registrado en el grupo." << endl;
                 cout << endl;
             }
 
         }
-
     }
 
 }
 
 #pragma endregion
+
+#pragma region AccionesEstadisticas
+
+void totalMaterias()
+{
+    cout << endl;
+    cout << "La cantidad de materias registradas en el sistema es de: " << listaMaterias.cantidad() << endl;
+    cout << endl;
+}
+
+void totalCursosPorMateria() 
+{
+    cout << endl;
+
+    for (int i = 0; i < listaMaterias.cantidad(); i++)
+    {
+        cout << "Materia: "<< listaMaterias.demeDato(i).getNombre() << ", cantidad de grupos: " << to_string(listaMaterias.demeDato(i).getGrupos().cantidad()) << endl;
+        cout << endl;
+    }
+}
+
+#pragma endregion
+
 
 
 bool ejecutarAccionMaterias(int popcion) {
@@ -1086,11 +1168,13 @@ bool ejecutarAccionEstadisticas(int popcion) {
     switch (popcion) {
 
     case 1:
-        //sin implementar
+        totalMaterias();
+        system("PAUSE");
         break;
 
     case 2:
-        //sin implementar
+        totalCursosPorMateria();
+        system("PAUSE");
         break;
 
     case 3:

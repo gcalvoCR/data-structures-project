@@ -437,9 +437,9 @@ bool ListaEstudiantesMatriculados::modificar(EstudianteMatriculado x)
 	NodoDEM* aux = this->buscarNodo(x);
 
 	if (aux != NULL) {
-		EstudianteMatriculado e = EstudianteMatriculado(x.getCedula(), x.getNota(), x.getEstudiante());
+		//EstudianteMatriculado e = EstudianteMatriculado(x.getCedula(), x.getNota(), x.getEstudiante());
 
-		aux->setDato(e);
+		aux->setDato(x);
 
 		modificado = true;
 	}
