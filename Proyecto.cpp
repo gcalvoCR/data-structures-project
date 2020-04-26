@@ -46,8 +46,8 @@ void mostrarMenuEstudiantes() {
 	cout << "4.  Eliminar estudiante" << endl;
 	cout << "5.  Buscar estudiante por cedula" << endl;
 	cout << "6.  Modificar estudiante" << endl;
-	cout << "7.  Desactivar estudiante" << endl;
-	cout << "8.  Activar estudiante" << endl;
+	cout << "7.  Activar estudiante" << endl;
+	cout << "8.  Desactivar estudiante" << endl;
 	cout << " " << endl;
 	cout << "9.  Volver a menu principal" << endl;
 	cout << endl;
