@@ -2,21 +2,22 @@
 #include <iostream>
 
 
+
 #pragma region AccionesEstudiantes
 void SistemaMatricula::registrarEstudiante()
 {
 	string ced, nombre, celular, correo;
 
 	cout << "Ingrese por favor los siguientes datos:" << endl;
-	cout << endl;
+	cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 	cout << "Cedula:" << endl;
-	cin >> ced;
+	getline(std::cin, ced);
 	cout << "Nombre:" << endl;
-	cin >> nombre;
+	getline(std::cin, nombre);
 	cout << "Celular:" << endl;
-	cin >> celular;
+	getline(std::cin, celular);
 	cout << "Correo:" << endl;
-	cin >> correo;
+	getline(std::cin, correo);
 
 	Estudiante e = Estudiante(ced, nombre, celular, correo, true);
 

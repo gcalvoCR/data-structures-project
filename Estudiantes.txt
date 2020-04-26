@@ -1,1 +1,2 @@
-Cedula:123,Nombre:Gabriel,Celular:88228822,Correo:gcalvo@ucenfotec.com,Activo:1
+Cedula:123,Nombre:Gabriel Calvo,Celular:88228822,Correo:gcalvo@ucenfotec.com,Activo:1
+Cedula:124,Nombre:Pablo Calvo,Celular:22334455,Correo:pablo@ucenfotec.ac.cr,Activo:1
