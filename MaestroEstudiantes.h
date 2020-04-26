@@ -18,6 +18,10 @@ private:
 	NodoDE* nodoPrimero();
 	Estudiante demeDato(NodoDE*);
 	void borrarNodo(NodoDE*);
+
+	void agregarAArchivo(Estudiante);
+	void borrarDeArchivo(Estudiante);
+	void modificarEnArchivo(Estudiante);
 public:
 	MaestroEstudiantes();
 

@@ -436,14 +436,14 @@ void mostrarMenuPrincipal() {
     cout << endl;
 }    
 
-int main()
-{
-    int opc;
-    bool noSalir = true;
-
-    do {
-        mostrarMenuPrincipal();
-        opc = leerOpcion();
-        noSalir = ejecutarAccion(opc);
-    } while (noSalir);
-}
+//int main()
+//{
+//    int opc;
+//    bool noSalir = true;
+//
+//    do {
+//        mostrarMenuPrincipal();
+//        opc = leerOpcion();
+//        noSalir = ejecutarAccion(opc);
+//    } while (noSalir);
+//}

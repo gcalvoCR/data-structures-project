@@ -1,5 +1,11 @@
 #include "MaestroEstudiantes.h"
 #include <iostream>
+#include <fstream>
+#include <string>
+#include <sstream>
+#include <algorithm>
+#include <iterator>
+using namespace std;
 
 NodoDE* MaestroEstudiantes::getCab()
 {
@@ -142,10 +148,106 @@ void MaestroEstudiantes::borrarNodo(NodoDE* dir)
 	}
 }
 
+void MaestroEstudiantes::agregarAArchivo(Estudiante x)
+{
+	ofstream archivoEstudiantes;
+
+	archivoEstudiantes.open("Estudiantes.txt", ios::app);
+
+	archivoEstudiantes << "Cedula:" << x.getCedula();
+	archivoEstudiantes << ",Nombre:" << x.getNombre();
+	archivoEstudiantes << ",Celular:" << x.getCelular();
+	archivoEstudiantes << ",Correo:" << x.getCorreo();
+	archivoEstudiantes << ",Activo:" << x.isActivo() << endl;
+
+	archivoEstudiantes.close();
+}
+
+void MaestroEstudiantes::borrarDeArchivo(Estudiante x)
+{
+	string estudiante;
+	ifstream archivoEstudiantes;
+	ofstream temp;
+
+	archivoEstudiantes.open("Estudiantes.txt");
+	temp.open("Temp.txt");
+
+	while (getline(archivoEstudiantes, estudiante))
+	{
+		if (estudiante.find("Cedula:" + x.getCedula()) == std::string::npos) {
+			temp << estudiante << endl;
+		}
+	}
+
+	archivoEstudiantes.close();
+	temp.close();
+
+	remove("Estudiantes.txt");
+	rename("Temp.txt", "Estudiantes.txt");
+}
+
 MaestroEstudiantes::MaestroEstudiantes()
 {
-	this->cab = NULL;
+	string estudiante;
+	ifstream archivoEstudiantes("Estudiantes.txt");
+
 	this->largo = 0;
+	this->cab = NULL;
+
+	if (archivoEstudiantes.is_open())
+	{
+		while (getline(archivoEstudiantes, estudiante))
+		{
+			stringstream ss(estudiante);
+			string dato;
+			Estudiante e;
+			NodoDE* n;
+
+			while (std::getline(ss, dato, ','))
+			{
+				if (dato.find("Cedula") != std::string::npos) {
+					e.setCedula(dato.substr(dato.find(":") + 1));
+				}
+				else if (dato.find("Nombre") != std::string::npos) {
+					e.setNombre(dato.substr(dato.find(":") + 1));
+				}
+				else if (dato.find("Celular") != std::string::npos) {
+					e.setCelular(dato.substr(dato.find(":") + 1));
+				}
+				else if (dato.find("Correo") != std::string::npos) {
+					e.setCorreo(dato.substr(dato.find(":") + 1));
+				}
+				else if (dato.find("Activo") != std::string::npos) {
+					bool activo;
+					std::istringstream(dato.substr(dato.find(":") + 1)) >> activo;
+					e.setActivo(activo);
+				}
+			}
+
+			n = new NodoDE(e);
+
+			if (this->esVacia()) {
+				n->setSgte(n);
+				n->setAnte(n);
+
+				this->setCab(n);
+			}
+			else {
+				NodoDE* ult = this->nodoUltimo();
+
+				n->setAnte(ult);
+				n->setSgte(this->getCab());
+
+				ult->setSgte(n);
+
+				this->getCab()->setAnte(n);
+			}
+
+			this->setLargo(this->getLargo() + 1);
+		}
+
+		archivoEstudiantes.close();
+	}
 }
 
 bool MaestroEstudiantes::esVacia()
@@ -241,6 +343,8 @@ void MaestroEstudiantes::agregarInicio(Estudiante x)
 
 	this->setCab(n);
 	this->setLargo(this->getLargo() + 1);
+
+	this->agregarAArchivo(x);
 }
 
 void MaestroEstudiantes::agregarFinal(Estudiante x)
@@ -259,7 +363,23 @@ void MaestroEstudiantes::agregarFinal(Estudiante x)
 		this->getCab()->setAnte(n);
 
 		this->setLargo(this->getLargo() + 1);
+
+		this->agregarAArchivo(x);
 	}
+}
+
+int main()
+{
+	MaestroEstudiantes m;
+	Estudiante e;
+
+	m.desplegar();
+
+	e.setCedula("123456789");
+
+	m.borrar(e);
+
+	m.desplegar();
 }
 
 bool MaestroEstudiantes::agregarEnPos(int pos, Estudiante x)
@@ -288,6 +408,8 @@ bool MaestroEstudiantes::agregarEnPos(int pos, Estudiante x)
 			aux->setAnte(n);
 
 			this->setLargo(this->getLargo() + 1);
+
+			this->agregarAArchivo(x);
 		}
 
 		agregado = true;
@@ -313,6 +435,8 @@ bool MaestroEstudiantes::agregarAntesDe(Estudiante x, Estudiante r)
 		agregado = true;
 
 		this->setLargo(this->getLargo() + 1);
+
+		this->agregarAArchivo(x);
 	}
 
 	return agregado;
@@ -335,6 +459,8 @@ bool MaestroEstudiantes::agregarDespuesDe(Estudiante x, Estudiante r)
 		agregado = true;
 
 		this->setLargo(this->getLargo() + 1);
+
+		this->agregarAArchivo(x);
 	}
 
 	return agregado;
@@ -348,6 +474,8 @@ bool MaestroEstudiantes::borrar(Estudiante x)
 		this->borrarNodo(this->buscarNodo(x));
 
 		borrado = true;
+
+		this->borrarDeArchivo(x);
 	}
 
 	return borrado;
@@ -359,9 +487,13 @@ bool MaestroEstudiantes::borrarEnPos(int pos)
 
 	if (!this->esVacia() && pos >= 0 && pos < this->cantidad()) {
 		if (pos == 0) {
+			this->borrarDeArchivo(this->nodoPrimero()->getDato());
+
 			this->borrarNodo(this->nodoPrimero());
 		}
 		else if (pos == this->cantidad() - 1) {
+			this->borrarDeArchivo(this->nodoUltimo()->getDato());
+
 			this->borrarNodo(this->nodoUltimo());
 		}
 		else {
@@ -370,6 +502,8 @@ bool MaestroEstudiantes::borrarEnPos(int pos)
 			for (int i = 0; i < pos; i++) {
 				aux = aux->getSgte();
 			}
+
+			this->borrarDeArchivo(aux->getDato());
 
 			this->borrarNodo(aux);
 		}
@@ -395,6 +529,8 @@ void MaestroEstudiantes::limpiar()
 		} while (aux != this->getCab());
 
 		this->setLargo(0);
+
+		remove("Estudiantes.txt");
 	}
 }
 
