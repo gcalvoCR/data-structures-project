@@ -12,6 +12,7 @@ public:
 	//Acciones para estudiantes
 	void registrarEstudiante(); 
 	void listarEstudiantes();
+	void listarEstudiantesDetalladamente();
 	void eliminarEstudiante();
 	void buscarEstudiante();
 	void modificarEstudiante();
@@ -37,15 +38,17 @@ public:
 
 	//Acciones para matricula
 	void matricularEstudiante();
-	void listarMatriculadosPorCurso();
+	void listarMatriculadosPorGrupo();
 	void mostrarDetallesEstudianteMatriculado();
-	void retirarEstudianteDeCurso();
+	void retirarEstudianteDeGrupo();
 	void modificarNotaEstudianteMatriculado();
 
 	//Acciones estadisticas
 	void totalMaterias();
 	void totalGruposPorMateria();
 	void totalEstudiantesPorMateria();
+
+	//falta de implementar de aca para abajo
 	void grupoMenosMatriculados();
 	void grupoMasMatriculados();
 	void estudiantesActivos();

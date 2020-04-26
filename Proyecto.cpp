@@ -42,14 +42,15 @@ void mostrarMenuEstudiantes() {
 	cout << endl;
 	cout << "1.  Registrar estudiante" << endl;
 	cout << "2.  Listar estudiantes" << endl;
-	cout << "3.  Eliminar estudiante" << endl;
-	cout << "4.  Buscar estudiante por cedula" << endl;
-	cout << "5.  Modificar estudiante" << endl;
-	cout << "6.  Mostrar detalle de estudiante" << endl;
-	cout << "7.  Desactivar estudiante" << endl;
-	cout << "8.  Activar estudiante" << endl;
+	cout << "3.  Listar estudiantes detalladamente" << endl;
+	cout << "4.  Eliminar estudiante" << endl;
+	cout << "5.  Buscar estudiante por cedula" << endl;
+	cout << "6.  Modificar estudiante" << endl;
+	cout << "7.  Mostrar detalle de estudiante" << endl;
+	cout << "8.  Desactivar estudiante" << endl;
+	cout << "9.  Activar estudiante" << endl;
 	cout << " " << endl;
-	cout << "9.  Volver a menu principal" << endl;
+	cout << "10.  Volver a menu principal" << endl;
 	cout << endl;
 
 }
@@ -142,33 +143,34 @@ bool ejecutarAccionEstudiantes(int popcion) {
 		break;
 
 	case 3:
-		matricula.eliminarEstudiante();
+		matricula.listarEstudiantesDetalladamente();
 		system("PAUSE");
 		break;
 
 	case 4:
-		matricula.buscarEstudiante();
+		matricula.eliminarEstudiante();
 		system("PAUSE");
 		break;
 
 	case 5:
+		matricula.buscarEstudiante();
+		system("PAUSE");
+		break;
+
+	case 7:
 		matricula.modificarEstudiante();
 		system("PAUSE");
 		break;
 
-	case 6:
+	case 8:
 		matricula.activarEstudiante();
 		system("PAUSE");
 		break;
-	case 7:
+	case 9:
 		matricula.desactivarEstudiante();
 		system("PAUSE");
 		break;
-	case 8:
-		//sin implementar
-		break;
-
-	case 9:
+	case 10:
 		noSalir = false;
 		break;
 
@@ -299,12 +301,12 @@ bool ejecutarAccionMatriculados(int popcion) {
 		break;
 
 	case 2:
-		matricula.listarMatriculadosPorCurso();
+		matricula.listarMatriculadosPorGrupo();
 		system("PAUSE");
 		break;
 
 	case 3:
-		matricula.retirarEstudianteDeCurso();
+		matricula.retirarEstudianteDeGrupo();
 		system("PAUSE");
 		break;
 

@@ -33,6 +33,23 @@ void SistemaMatricula::listarEstudiantes()
 		cout << "No hay estudiantes registradas." << endl;
 		cout << endl;
 	}
+
+	for (int i = 0; i < maestroEstudiantes.cantidad(); i++)
+	{
+		Estudiante e = maestroEstudiantes.demeDato(i);
+		cout << "Ced: " << e.getCedula() <<", nombre: "<< e.getNombre() << endl;
+		cout << endl;
+	}
+	maestroEstudiantes.desplegar();
+}
+
+void SistemaMatricula::listarEstudiantesDetalladamente()
+{
+	if (maestroEstudiantes.cantidad() == 0) {
+		cout << endl;
+		cout << "No hay estudiantes registradas." << endl;
+		cout << endl;
+	}
 	maestroEstudiantes.desplegar();
 }
 
@@ -633,7 +650,7 @@ void SistemaMatricula::matricularEstudiante() {
 	}
 }
 
-void SistemaMatricula::listarMatriculadosPorCurso()
+void SistemaMatricula::listarMatriculadosPorGrupo()
 {
 	string codigo;
 	int numero;
@@ -720,7 +737,7 @@ void SistemaMatricula::mostrarDetallesEstudianteMatriculado()
 	}
 }
 
-void SistemaMatricula::retirarEstudianteDeCurso()
+void SistemaMatricula::retirarEstudianteDeGrupo()
 {
 	string codigo, cedula;
 	int numero;
@@ -886,6 +903,30 @@ void SistemaMatricula::totalEstudiantesPorMateria()
 		cout << endl;
 	}
 
+}
+
+void SistemaMatricula::grupoMenosMatriculados()
+{
+}
+
+void SistemaMatricula::grupoMasMatriculados()
+{
+}
+
+void SistemaMatricula::estudiantesActivos()
+{
+}
+
+void SistemaMatricula::estudiantesInactivos()
+{
+}
+
+void SistemaMatricula::TopEstudiantesPorMateria()
+{
+}
+
+void SistemaMatricula::estudiantesMaximaNotaPorMateria()
+{
 }
 
 #pragma endregion
