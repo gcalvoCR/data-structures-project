@@ -8,6 +8,7 @@ Grupo::Grupo()
 	this->estatus = false;
 	this->maximo = 0;
 	this->matriculados = 0;
+	this->listaMatricula = ListaEstudiantesMatriculados();
 }
 
 Grupo::Grupo(string pMateria, int pNumero, bool pEstatus, int pMaximo, int pMatriculados)
@@ -17,6 +18,7 @@ Grupo::Grupo(string pMateria, int pNumero, bool pEstatus, int pMaximo, int pMatr
 	this->estatus = pEstatus;
 	this->maximo = pMaximo;
 	this->matriculados = pMatriculados;
+	this->listaMatricula = ListaEstudiantesMatriculados();
 }
 
 string Grupo::getMateria()

@@ -99,13 +99,12 @@ void mostrarMenuMatriculados() {
     cout << "*********** MENU DE MATRICULA ***********" << endl;
     cout << endl;
     cout << "1.  Matricular estudiante" << endl;
-    cout << "2.  Listar matriculados" << endl;
-    cout << "3.  Remover estudiante de materia" << endl;
-    cout << "4.  Buscar estudiante" << endl;
-    cout << "5.  Modificar informacion de estudiante matriculado" << endl;
-    cout << "6.  Mostrar detalle de estudiantr matriculado" << endl;
-    cout << ". " << endl;
-    cout << "7.  Volver a menu principal" << endl;
+    cout << "2.  Listar matriculados por curso" << endl;
+    cout << "3.  Retirar estudiante de grupo" << endl;
+    cout << "4.  Modificar nota de estudiante" << endl;
+    cout << "5.  Mostrar detalle de estudiante matriculado" << endl;
+    cout << endl;
+    cout << "6.  Volver a menu principal" << endl;
     cout << endl;
 
 }
@@ -397,7 +396,7 @@ void registrarGrupo() {
 
     string materia;
     int numero, maximo, matriculados;
-    
+
     matriculados = 0;
     bool estatus = true;
 
@@ -429,7 +428,7 @@ void registrarGrupo() {
 
         listaMaterias.modificar(m);
 
-        cout << "El grupo " << numero << " fue agregado a la materia " << materia << "."<<endl;
+        cout << "El grupo " << numero << " fue agregado a la materia " << materia << "." << endl;
         cout << endl;
     }
 }
@@ -444,7 +443,7 @@ void listarGruposPorMateria()
 
     Materia m = listaMaterias.consultar(codigo);
 
-    if (m.getNombre() == "")
+    if (m.getNombre() == " ")
     {
         cout << "La materia no se encuentra registrada" << endl;
         cout << endl;
@@ -509,7 +508,7 @@ void eliminarGrupo()
 
         if (eliminado)
         {
-            cout << "La materia " << m.getNombre() << " fue eliminada del sistema." << endl;
+            cout << "El grupo " << to_string(g.getNumero()) << " fue eliminado del sistema." << endl;
             cout << endl;
         }
         else
@@ -548,7 +547,7 @@ void modificarGrupo()
         if (g.getMateria() != " ")
         {
             int tam;
-            cout << "Ingrese por favor la nueva cantidad maxima: [ " << to_string(g.getNumero()) << "]" << endl;
+            cout << "Ingrese por favor la nueva cantidad maxima: [ " << to_string(g.getMaximo()) << "]" << endl;
             cin >> tam;
 
             g.setMaximo(tam);
@@ -655,6 +654,216 @@ void cerrarGrupo()
             }
         }
     }
+}
+
+#pragma endregion
+
+#pragma region AccionesMatricula
+
+void matricularEstudiante() {
+
+    string materia, cedula;
+    int numero;
+
+    bool estatus = true;
+
+    cout << "Ingrese por favor los siguientes datos:" << endl;
+    cout << endl;
+    cout << "Cedula de la persona:" << endl;
+    cin >> cedula;
+
+    Estudiante e = maestroEstudiantes.consultar(cedula);
+
+    if (e.getNombre() == " ") {
+        cout << endl;
+        cout << "*** Estudiante no matriculado, redirigiendo a registro ***" <<  endl;
+
+        registrarEstudiante();
+
+        cout << endl;
+        cout << " *** Continuacion del proceso de matricula ***" << endl;
+        cout << endl;
+        cout << "Ingrese por favor los siguientes datos:" << endl;
+
+    }
+
+    cout << endl;
+    cout << "Codigo de la materia:" << endl;
+    cin >> materia;
+    cout << "Numero de grupo:" << endl;
+    cin >> numero;
+
+    Materia m = listaMaterias.consultar(materia);
+
+    if (m.getNombre() == " ")
+    {
+        cout << "La materia no se encuentra registrada" << endl;
+        cout << endl;
+    }
+    else
+    {
+        Grupo g = m.getGrupos().consultar(numero);
+
+        NodoDE* e = maestroEstudiantes.buscarNodo(cedula);
+
+        EstudianteMatriculado em = EstudianteMatriculado(cedula, -1, e);
+
+        g.getListaMatricula().agregarFinal(em);
+
+        cout << "El estudiante " << cedula << " fue matriculado en la materia " << materia << "." << endl;
+        cout << endl;
+    }
+}
+
+void listarMatriculadosPorCurso()
+{
+    string codigo;
+    int numero;
+
+    cout << "Ingrese por favor el codigo de la materia:" << endl;
+    cin >> codigo;
+
+    Materia m = listaMaterias.consultar(codigo);
+
+    if (m.getNombre() == " ")
+    {
+        cout << "La materia no se encuentra registrada" << endl;
+        cout << endl;
+    }
+    else
+    {
+        cout << "Ingrese por favor el numero de grupo:" << endl;
+        cin >> numero;
+
+        Grupo g = m.getGrupos().consultar(numero);
+
+        if (g.getMateria() == " ")
+        {
+            cout << "El curso no se fue registrado" << endl;
+            cout << endl;
+        } 
+        else
+        {
+            ListaEstudiantesMatriculados lm = g.getListaMatricula();
+            for (int i = 0; i < g.getListaMatricula().cantidad(); i++)
+            {
+                lm.demeDato(i).desplegar();
+            }
+        }  
+    }
+}
+
+void mostrarDetallesEstudianteMatriculado()
+{
+    string codigo;
+    int numero;
+
+    cout << "Ingrese por favor el codigo de la materia:" << endl;
+    cin >> codigo;
+
+    cout << "Ingrese por favor el numero de grupo:" << endl;
+    cin >> numero;
+
+    Materia m = listaMaterias.consultar(codigo);
+
+    if (m.getNombre() == " ")
+    {
+        cout << "La materia no se encuentra registrada" << endl;
+        cout << endl;
+    }
+    else
+    {
+        Grupo g = m.getGrupos().consultar(numero);
+        g.desplegar();
+    }
+}
+
+void retirarEstudianteDeCurso()
+{
+    string codigo;
+    int numero;
+
+    cout << "Ingrese por favor el codigo de la materia:" << endl;
+    cin >> codigo;
+
+    cout << "Ingrese por favor el numero de grupo:" << endl;
+    cin >> numero;
+
+    Materia m = listaMaterias.consultar(codigo);
+
+    if (m.getNombre() == "")
+    {
+        cout << "La materia no se encuentra registrada" << endl;
+        cout << endl;
+    }
+    else
+    {
+        Grupo g = m.getGrupos().consultar(numero);
+
+        bool eliminado = m.getGrupos().borrar(g);
+
+        if (eliminado)
+        {
+            cout << "El grupo " << to_string(g.getNumero()) << " fue eliminado del sistema." << endl;
+            cout << endl;
+        }
+        else
+        {
+            cout << "El grupo que intenta eliminar no esta registrado." << endl;
+            cout << endl;
+        }
+
+    }
+
+}
+
+void modificarNotaEstudianteMatriculado()
+{
+
+    string codigo;
+    int numero;
+
+    cout << "Ingrese por favor el codigo de la materia:" << endl;
+    cin >> codigo;
+
+    cout << "Ingrese por favor el numero de grupo:" << endl;
+    cin >> numero;
+
+    Materia m = listaMaterias.consultar(codigo);
+
+    if (m.getNombre() == "")
+    {
+        cout << "La materia no se encuentra registrada" << endl;
+        cout << endl;
+    }
+    else
+    {
+        Grupo g = m.getGrupos().consultar(numero);
+
+        if (g.getMateria() != " ")
+        {
+            int tam;
+            cout << "Ingrese por favor la nueva cantidad maxima: [ " << to_string(g.getMaximo()) << "]" << endl;
+            cin >> tam;
+
+            g.setMaximo(tam);
+
+            bool modificado = m.getGrupos().modificar(g);
+            if (modificado)
+            {
+                cout << "El grupo fue modificado correctamente." << endl;
+                cout << endl;
+            }
+            else
+            {
+                cout << "No fue posible modificar el grupo." << endl;
+                cout << endl;
+            }
+
+        }
+
+    }
+
 }
 
 #pragma endregion
@@ -829,30 +1038,31 @@ bool ejecutarAccionMatriculados(int popcion) {
     switch (popcion) {
 
     case 1:
-        //sin implementar
+        matricularEstudiante();
+        system("PAUSE");
         break;
 
     case 2:
-        //sin implementar
+        listarMatriculadosPorCurso();
+        system("PAUSE");
         break;
 
     case 3:
-        //sin implementar
+        retirarEstudianteDeCurso();
+        system("PAUSE");
         break;
 
     case 4:
-        //sin implementar
+        modificarNotaEstudianteMatriculado();
+        system("PAUSE");
         break;
 
     case 5:
-        //sin implementar
+        mostrarDetallesEstudianteMatriculado();
+        system("PAUSE");
         break;
 
     case 6:
-        //sin implementar
-        break;
-
-    case 7:
         noSalir = false;
         break;
 

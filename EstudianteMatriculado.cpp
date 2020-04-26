@@ -5,7 +5,7 @@ EstudianteMatriculado::EstudianteMatriculado()
 {
 }
 
-EstudianteMatriculado::EstudianteMatriculado(string pcedula, string pnota, NodoDE* pestudiante)
+EstudianteMatriculado::EstudianteMatriculado(string pcedula, int pnota, NodoDE* pestudiante)
 {
     this->cedula = pcedula;
     this->nota = pnota;
@@ -22,12 +22,12 @@ void EstudianteMatriculado::setCedula(string cedula)
     this->cedula = cedula;
 }
 
-string EstudianteMatriculado::getNota()
+int EstudianteMatriculado::getNota()
 {
     return nota;
 }
 
-void EstudianteMatriculado::setNota(string nota)
+void EstudianteMatriculado::setNota(int nota)
 {
     this->nota = nota;
 }
