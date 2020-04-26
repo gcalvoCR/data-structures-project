@@ -11,7 +11,6 @@ private:
 	int getLargo();
 	void setLargo(int);
 
-	NodoDE* buscarNodo(Estudiante);
 	NodoDE* nodoUltimo();
 	NodoDE* nodoAnt(Estudiante);
 	NodoDE* nodoAnt(NodoDE*);
@@ -45,6 +44,6 @@ public:
 	Estudiante consultar(string);
 	bool modificar(Estudiante);
 
-	NodoDE* buscarNodo(string cedula);
+	NodoDE* buscarNodo(Estudiante);
 };
 

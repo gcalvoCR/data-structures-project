@@ -567,24 +567,3 @@ bool MaestroEstudiantes::modificar(Estudiante x)
 
 	return modificado;
 }
-
-NodoDE* MaestroEstudiantes::buscarNodo(string cedula)
-{
-	NodoDE* aux = NULL;
-
-	if (!this->esVacia()) {
-		aux = this->getCab();
-
-		if (this->getCab()->getDato().getCedula().compare(cedula) != 0) {
-			do {
-				aux = aux->getSgte();
-			} while (aux != this->getCab() && aux->getDato().getCedula().compare(cedula) != 0);
-
-			if (aux->getDato().getCedula().compare(cedula) != 0) {
-				aux = NULL;
-			}
-		}
-	}
-
-	return aux;
-}
