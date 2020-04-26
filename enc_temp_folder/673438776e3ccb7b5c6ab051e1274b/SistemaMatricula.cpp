@@ -119,7 +119,6 @@ void SistemaMatricula::modificarEstudiante()
 			texto = "";
 		}
 		cout << "Ingrese por favor el nuevo correo [registrado: " << e.getCorreo() << "]" << endl;
-		getline(std::cin, texto);
 		if (texto.length() != 0) {
 			e.setCorreo(texto);
 			texto = "";
