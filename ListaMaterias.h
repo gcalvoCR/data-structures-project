@@ -18,6 +18,10 @@ private:
 	NodoDM* nodoPrimero();
 	Materia demeDato(NodoDM*);
 	void borrarNodo(NodoDM*);
+
+	void agregarAArchivo(Materia);
+	void borrarDeArchivo(Materia);
+	void modificarEnArchivo(Materia);
 public:
 	ListaMaterias();
 
