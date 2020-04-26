@@ -106,119 +106,6 @@ void mostrarMenuEstadisticas() {
 	cout << "10.  Volver a menu principal" << endl;
 	cout << endl;
 
-<<<<<<< Updated upstream
-=======
-    Grupo g = Grupo(materia, numero, estatus, maximo, matriculados);
-
-    Materia m = listaMaterias.consultar(materia);
-
-    if (m.getNombre() == " ")
-    {
-        cout << "La materia no se encuentra registrada" << endl;
-        cout << endl;
-    }
-    else
-    {
-        ListaGrupos listaGrupos = m.getGrupos();
-
-        listaGrupos.agregarFinal(g);
-
-        m.setGrupos(listaGrupos);
-
-        listaMaterias.modificar(m);
-
-        cout << "El grupo " << numero << " fue agregado a la materia " << materia << "." << endl;
-        cout << endl;
-    }
-}
-
-void listarGruposPorMateria()
-{
-    string codigo;
-    int numero;
-
-    cout << "Ingrese por favor el codigo de la materia:" << endl;
-    cin >> codigo;
-
-    Materia m = listaMaterias.consultar(codigo);
-
-    if (m.getNombre() == " ")
-    {
-        cout << "La materia no se encuentra registrada" << endl;
-        cout << endl;
-    }
-    else
-    {
-        for (int i = 0; i < m.getGrupos().cantidad(); i++)
-        {
-            m.getGrupos().demeDato(i).desplegar();
-        }
-    }
-}
-
-void consultarGrupo()
-{
-    string codigo;
-    int numero;
-
-    cout << "Ingrese por favor el codigo de la materia:" << endl;
-    cin >> codigo;
-
-    cout << "Ingrese por favor el numero de grupo:" << endl;
-    cin >> numero;
-
-    Materia m = listaMaterias.consultar(codigo);
-
-    if (m.getNombre() == " ")
-    {
-        cout << "La materia no se encuentra registrada" << endl;
-        cout << endl;
-    }
-    else
-    {
-        Grupo g = m.getGrupos().consultar(numero);
-        g.desplegar();
-    }
-}
-
-void eliminarGrupo()
-{
-    string codigo;
-    int numero;
-
-    cout << "Ingrese por favor el codigo de la materia:" << endl;
-    cin >> codigo;
-
-    cout << "Ingrese por favor el numero de grupo:" << endl;
-    cin >> numero;
-
-    Materia m = listaMaterias.consultar(codigo);
-
-    if (m.getNombre() == "")
-    {
-        cout << "La materia no se encuentra registrada" << endl;
-        cout << endl;
-    }
-    else
-    {
-        ListaGrupos listaGrupos = m.getGrupos();
-        Grupo g = listaGrupos.consultar(numero);
-
-        bool eliminado = m.getGrupos().borrar(g);
-
-        if (eliminado)
-        {
-            cout << "El grupo " << to_string(g.getNumero()) << " fue eliminado del sistema." << endl;
-            cout << endl;
-        }
-        else
-        {
-            cout << "El grupo que intenta eliminar no esta registrado." << endl;
-            cout << endl;
-        }
-
-    }
->>>>>>> Stashed changes
 
 }
 
@@ -238,78 +125,7 @@ void mostrarMenuPrincipal() {
 }
 #pragma endregion
 
-<<<<<<< Updated upstream
 bool ejecutarAccionEstudiantes(int popcion) {
-=======
-#pragma region AccionesMatricula
-
-void matricularEstudiante() {
-
-    string materia, cedula;
-    int numero;
-
-    bool estatus = true;
-
-    cout << "Ingrese por favor los siguientes datos:" << endl;
-    cout << endl;
-    cout << "Cedula de la persona:" << endl;
-    cin >> cedula;
-
-    Estudiante e = maestroEstudiantes.consultar(cedula);
-
-    if (e.getNombre() == " ") {
-        cout << endl;
-        cout << "*** Estudiante no matriculado, redirigiendo a registro ***" <<  endl;
-
-        registrarEstudiante();
-
-        cout << endl;
-        cout << " *** Continuacion del proceso de matricula ***" << endl;
-        cout << endl;
-        cout << "Ingrese por favor los siguientes datos:" << endl;
-
-    }
-
-    cout << endl;
-    cout << "Codigo de la materia:" << endl;
-    cin >> materia;
-    cout << "Numero de grupo:" << endl;
-    cin >> numero;
-
-    Materia m = listaMaterias.consultar(materia);
-
-    if (m.getNombre() == " ")
-    {
-        cout << "La materia no se encuentra registrada" << endl;
-        cout << endl;
-    }
-    else
-    {
-        Grupo g = m.getGrupos().consultar(numero);
-
-        NodoDE* e = maestroEstudiantes.buscarNodo(cedula);
-
-        EstudianteMatriculado em = EstudianteMatriculado(cedula, -1, e);
-
-        ListaEstudiantesMatriculados lm = g.getListaMatricula();
-
-        lm.agregarFinal(em);
-
-        g.setListaMatricula(lm);
-
-        lm.modificar(em);
-
-
-       /* ListaGrupos listaGrupos = m.getGrupos();
-
-        listaGrupos.agregarFinal(g);
-
-        m.setGrupos(listaGrupos);
-
-        listaMaterias.modificar(m);*/
-
-        //g.getListaMatricula().agregarFinal(em);
->>>>>>> Stashed changes
 
 	bool noSalir = true;
 
@@ -369,64 +185,15 @@ void matricularEstudiante() {
 
 bool ejecutarAccionMaterias(int popcion) {
 
-<<<<<<< Updated upstream
 	bool noSalir = true;
 
 	switch (popcion) {
-=======
-void mostrarDetallesEstudianteMatriculado()
-{
-    string codigo, cedula;
-    int numero;
-
-    cout << "Ingrese por favor el codigo de la materia:" << endl;
-    cin >> codigo;
-
-    Materia m = listaMaterias.consultar(codigo);
-
-    if (m.getNombre() == " ")
-    {
-        cout << "La materia no se encuentra registrada" << endl;
-        cout << endl;
-    }
-    else
-    {
-        cout << "Ingrese por favor el numero de grupo:" << endl;
-        cin >> numero;
-
-        Grupo g = m.getGrupos().consultar(numero);
-
-        if (g.getMateria() == " ")
-        {
-            cout << "El curso no se fue registrado" << endl;
-            cout << endl;
-        }
-        else
-        {
-            cout << "Ingrese por favor la cedula del estudiante matriculado:" << endl;
-            cin >> cedula;
-
-            ListaEstudiantesMatriculados lm = g.getListaMatricula();
-
-            EstudianteMatriculado em = lm.consultar(cedula);
-
-            em.desplegar();
-        }
-    }
-}
-
-void retirarEstudianteDeCurso()
-{
-    string codigo, cedula;
-    int numero;
->>>>>>> Stashed changes
 
 	case 1:
 		matricula.registrarMateria();
 		system("PAUSE");
 		break;
 
-<<<<<<< Updated upstream
 	case 2:
 		matricula.listarMaterias();
 		system("PAUSE");
@@ -455,51 +222,6 @@ void retirarEstudianteDeCurso()
 	case 7:
 		noSalir = false;
 		break;
-=======
-    Materia m = listaMaterias.consultar(codigo);
-
-    if (m.getNombre() == " ")
-    {
-        cout << "La materia no se encuentra registrada" << endl;
-        cout << endl;
-    }
-    else
-    {
-        cout << "Ingrese por favor el numero de grupo:" << endl;
-        cin >> numero;
-
-        Grupo g = m.getGrupos().consultar(numero);
-
-        if (g.getMateria() == " ")
-        {
-            cout << "El curso no se fue registrado" << endl;
-            cout << endl;
-        }
-        else
-        {
-            cout << "Ingrese por favor la cedula del estudiante matriculado:" << endl;
-            cin >> cedula;
-
-            ListaEstudiantesMatriculados lm = g.getListaMatricula();
-
-            EstudianteMatriculado em = lm.consultar(cedula);
-
-            bool eliminado = lm.borrar(em);
-
-            if (eliminado)
-            {
-                cout << "El estudiante con cedula " << cedula << " fue eliminado del sistema." << endl;
-                cout << endl;
-            }
-            else
-            {
-                cout << "El estudiante que intenta eliminar no esta registrado en el grupo." << endl;
-                cout << endl;
-            }
-
-        }
-    }
->>>>>>> Stashed changes
 
 	default:
 		cout << "************************" << endl;
@@ -513,16 +235,10 @@ void retirarEstudianteDeCurso()
 
 bool ejecutarAccionGrupos(int popcion) {
 
-<<<<<<< Updated upstream
 	bool noSalir = true;
-=======
-    string codigo, cedula;
-    int numero, nota;
->>>>>>> Stashed changes
 
 	switch (popcion) {
 
-<<<<<<< Updated upstream
 	case 1:
 		matricula.registrarGrupo();
 		system("PAUSE");
@@ -561,56 +277,6 @@ bool ejecutarAccionGrupos(int popcion) {
 	case 8:
 		noSalir = false;
 		break;
-=======
-    Materia m = listaMaterias.consultar(codigo);
-
-    if (m.getNombre() == " ")
-    {
-        cout << "La materia no se encuentra registrada" << endl;
-        cout << endl;
-    }
-    else
-    {
-        cout << "Ingrese por favor el numero de grupo:" << endl;
-        cin >> numero;
-
-        Grupo g = m.getGrupos().consultar(numero);
-
-        if (g.getMateria() == " ")
-        {
-            cout << "El curso no se fue registrado" << endl;
-            cout << endl;
-        }
-        else
-        {
-            cout << "Ingrese por favor la cedula del estudiante matriculado:" << endl;
-            cin >> cedula;
-
-            cout << "Ingrese por favor la nota del estudiante matriculado:" << endl;
-            cin >> nota;
-
-            ListaEstudiantesMatriculados lm = g.getListaMatricula();
-
-            EstudianteMatriculado em = lm.consultar(cedula);
-
-            em.setNota(nota);
-
-            bool modificado = lm.modificar(em);
-
-            if (modificado)
-            {
-                cout << "El estudiante con cedula " << cedula << " fue actualizado exitosamente." << endl;
-                cout << endl;
-            }
-            else
-            {
-                cout << "El estudiante que intenta actualizar no esta registrado en el grupo." << endl;
-                cout << endl;
-            }
-
-        }
-    }
->>>>>>> Stashed changes
 
 	default:
 		cout << "************************" << endl;
@@ -624,33 +290,7 @@ bool ejecutarAccionGrupos(int popcion) {
 
 bool ejecutarAccionMatriculados(int popcion) {
 
-<<<<<<< Updated upstream
 	bool noSalir = true;
-=======
-#pragma region AccionesEstadisticas
-
-void totalMaterias()
-{
-    cout << endl;
-    cout << "La cantidad de materias registradas en el sistema es de: " << listaMaterias.cantidad() << endl;
-    cout << endl;
-}
-
-void totalCursosPorMateria() 
-{
-    cout << endl;
-
-    for (int i = 0; i < listaMaterias.cantidad(); i++)
-    {
-        cout << "Materia: "<< listaMaterias.demeDato(i).getNombre() << ", cantidad de grupos: " << to_string(listaMaterias.demeDato(i).getGrupos().cantidad()) << endl;
-        cout << endl;
-    }
-}
-
-#pragma endregion
-
-
->>>>>>> Stashed changes
 
 	switch (popcion) {
 
