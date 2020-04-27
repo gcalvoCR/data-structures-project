@@ -75,5 +75,10 @@ void Estudiante::desplegar()
 	cout << "Nombre: " << this->nombre << endl;
 	cout << "Celular: " << this->celular << endl;
 	cout << "Correo: " << this->correo << endl;
-	cout << "Activo: " << this->activo << endl;
+	if (this->activo) {
+		cout << "Activo: Si" << endl;
+	}
+	else {
+		cout << "Activo: No" << endl;
+	}
 }

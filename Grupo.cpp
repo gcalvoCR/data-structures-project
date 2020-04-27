@@ -75,7 +75,12 @@ void Grupo::desplegar()
 {
 	cout << "Materia: " << this->materia << endl;
 	cout << "Numero: " << this->numero << endl;
-	cout << "Estatus: " << this->estatus << endl;
+	if (this->estatus) {
+		cout << "Estatus: Activo" << endl;
+	}
+	else {
+		cout << "Estatus: Cerrado" << endl;
+	}
 	cout << "Maximo: " << this->maximo << endl;
 	cout << "Matriculados: " << this->matriculados << endl;
 }
