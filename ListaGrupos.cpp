@@ -320,7 +320,7 @@ ListaGrupos::ListaGrupos(string pMateria)
 
 			while (std::getline(ss, dato, ','))
 			{
-				if (dato.find("Materia:" + pMateria) != std::string::npos) {
+				if (grupo.find("Materia:" + pMateria) != std::string::npos) {
 					if (dato.find("Materia") != std::string::npos) {
 						g.setMateria(dato.substr(dato.find(":") + 1));
 					}
@@ -347,28 +347,30 @@ ListaGrupos::ListaGrupos(string pMateria)
 				}
 			}
 
-			g.setListaMatricula(ListaEstudiantesMatriculados(g.getMateria(), g.getNumero()));
+			if (g.getMateria() == pMateria) {
+				g.setListaMatricula(ListaEstudiantesMatriculados(g.getMateria(), g.getNumero()));
 
-			n = new NodoDG(g);
+				n = new NodoDG(g);
 
-			if (this->esVacia()) {
-				n->setSgte(n);
-				n->setAnte(n);
+				if (this->esVacia()) {
+					n->setSgte(n);
+					n->setAnte(n);
 
-				this->setCab(n);
+					this->setCab(n);
+				}
+				else {
+					NodoDG* ult = this->nodoUltimo();
+
+					n->setAnte(ult);
+					n->setSgte(this->getCab());
+
+					ult->setSgte(n);
+
+					this->getCab()->setAnte(n);
+				}
+
+				this->setLargo(this->getLargo() + 1);
 			}
-			else {
-				NodoDG* ult = this->nodoUltimo();
-
-				n->setAnte(ult);
-				n->setSgte(this->getCab());
-
-				ult->setSgte(n);
-
-				this->getCab()->setAnte(n);
-			}
-
-			this->setLargo(this->getLargo() + 1);
 		}
 
 		archivoGrupos.close();

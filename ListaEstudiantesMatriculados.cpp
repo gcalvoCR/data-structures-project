@@ -92,7 +92,7 @@ ListaEstudiantesMatriculados::ListaEstudiantesMatriculados(string pMateria, int 
 
 			while (std::getline(ss, dato, ','))
 			{
-				if (dato.find("Materia:" + pMateria) != std::string::npos && dato.find("Grupo:" + pGrupo) != std::string::npos) 
+				if (estudianteMatriculado.find("Materia:" + pMateria) != std::string::npos && estudianteMatriculado.find("Grupo:" + pGrupo) != std::string::npos)
 				{
 					if (dato.find("Estudiante") != std::string::npos) {
 						eM.setCedula(dato.substr(dato.find(":") + 1));
@@ -112,29 +112,31 @@ ListaEstudiantesMatriculados::ListaEstudiantesMatriculados(string pMateria, int 
 					}
 				}
 			}
+			
+			if (eM.getMateria() == pMateria && eM.getGrupo() == pGrupo) {
+				eM.setEstudiante(m.buscarNodo(m.consultar(eM.getCedula())));
 
-			eM.setEstudiante(m.buscarNodo(m.consultar(eM.getCedula())));
+				n = new NodoDEM(eM);
 
-			n = new NodoDEM(eM);
+				if (this->esVacia()) {
+					n->setSgte(n);
+					n->setAnte(n);
 
-			if (this->esVacia()) {
-				n->setSgte(n);
-				n->setAnte(n);
+					this->setCab(n);
+				}
+				else {
+					NodoDEM* ult = this->nodoUltimo();
 
-				this->setCab(n);
+					n->setAnte(ult);
+					n->setSgte(this->getCab());
+
+					ult->setSgte(n);
+
+					this->getCab()->setAnte(n);
+				}
+
+				this->setLargo(this->getLargo() + 1);
 			}
-			else {
-				NodoDEM* ult = this->nodoUltimo();
-
-				n->setAnte(ult);
-				n->setSgte(this->getCab());
-
-				ult->setSgte(n);
-
-				this->getCab()->setAnte(n);
-			}
-
-			this->setLargo(this->getLargo() + 1);
 		}
 
 		archivoEstudiantesMatriculados.close();
