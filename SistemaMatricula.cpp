@@ -317,16 +317,25 @@ void SistemaMatricula::mostrarDetallesMateria()
 
 		for (int j = 0; j < lg.cantidad(); j++)
 		{
+
 			Grupo g = lg.demeDato(j);
-			cout << endl;
-			cout << "Materia: " << g.getMateria()<< ", grupo: " << to_string(g.getNumero()) << ", estado: "<< to_string(g.getEstatus()) << endl;
+
+			if (g.getListaMatricula().cantidad() > 0)
+			{
+				cout << endl;
+				cout << "Materia: " << g.getMateria() << ", grupo: " << to_string(g.getNumero()) << ", estado: " << to_string(g.getEstatus()) << endl;
+			}
+
 
 			ListaEstudiantesMatriculados lm = g.getListaMatricula();
 
 			for (int k = 0; k < lm.cantidad(); k++)
 			{
-				EstudianteMatriculado em = lm.demeDato(k);
-				cout << "ced: " << em.getCedula() << ", nota: " << to_string(em.getNota()) << endl;
+				if (lm.cantidad()>0)
+				{
+					EstudianteMatriculado em = lm.demeDato(k);
+					cout << "ced: " << em.getCedula() << ", nota: " << to_string(em.getNota()) << endl;
+				}
 			}
 			cout << endl;
 		}
@@ -886,6 +895,7 @@ void SistemaMatricula::modificarNotaEstudianteMatriculado()
 		}
 		else
 		{
+			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 			cout << "Ingrese por favor la cedula del estudiante matriculado:" << endl;
 			getline(std::cin, cedula);
 
@@ -1046,20 +1056,34 @@ void SistemaMatricula::estudiantesActivosMateria()
 {
 	cout << endl;
 
-	// Solicitar la materia
-	Materia m;
+	string codigo;
+	int numero;
 
-	for (int i = 0; i < m.getGrupos().cantidad(); i++)
+	cout << "Ingrese por favor el codigo de la materia:" << endl;
+	cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+	getline(std::cin, codigo);
+
+	Materia m = listaMaterias.consultar(codigo);
+
+	if (m.getNombre() == " ")
 	{
-		Grupo g = m.getGrupos().demeDato(i);
-
-		for (int j = 0; j < g.getListaMatricula().cantidad(); j++)
+		cout << "La materia no se encuentra registrada" << endl;
+		cout << endl;
+	}
+	else
+	{
+		for (int i = 0; i < m.getGrupos().cantidad(); i++)
 		{
-			EstudianteMatriculado e = g.getListaMatricula().demeDato(j);
+			Grupo g = m.getGrupos().demeDato(i);
 
-			if (e.getEstudiante()->getDato().isActivo()) {
-				cout << "Cedula: " << e.getCedula() << ", Nombre: " << e.getEstudiante()->getDato().getNombre() << endl;
-				cout << endl;
+			for (int j = 0; j < g.getListaMatricula().cantidad(); j++)
+			{
+				EstudianteMatriculado e = g.getListaMatricula().demeDato(j);
+
+				if (e.getEstudiante()->getDato().isActivo()) {
+					cout << "Cedula: " << e.getCedula() << ", Nombre: " << e.getEstudiante()->getDato().getNombre() << endl;
+					cout << endl;
+				}
 			}
 		}
 	}
@@ -1069,16 +1093,44 @@ void SistemaMatricula::estudiantesActivosGrupo()
 {
 	cout << endl;
 
-	// Solicitar la materia y el grupo
-	Grupo g;
+	string codigo;
+	int numero;
 
-	for (int i = 0; i < g.getListaMatricula().cantidad(); i++)
+	cout << "Ingrese por favor el codigo de la materia:" << endl;
+	cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+	getline(std::cin, codigo);
+
+	Materia m = listaMaterias.consultar(codigo);
+
+	if (m.getNombre() == " ")
 	{
-		EstudianteMatriculado e = g.getListaMatricula().demeDato(i);
+		cout << "La materia no se encuentra registrada" << endl;
+		cout << endl;
+	}
+	else
+	{
+		cout << "Ingrese por favor el numero de grupo:" << endl;
+		cin >> numero;
 
-		if (e.getEstudiante()->getDato().isActivo()) {
-			cout << "Cedula: " << e.getCedula() << ", Nombre: " << e.getEstudiante()->getDato().getNombre() << endl;
+		Grupo g = m.getGrupos().consultar(numero);
+
+		if (g.getMateria() == " ")
+		{
 			cout << endl;
+			cout << "El grupo no esta registrado en el sistema." << endl;
+			cout << endl;
+		}
+		else
+		{
+			for (int i = 0; i < g.getListaMatricula().cantidad(); i++)
+			{
+				EstudianteMatriculado e = g.getListaMatricula().demeDato(i);
+
+				if (e.getEstudiante()->getDato().isActivo()) {
+					cout << "Cedula: " << e.getCedula() << ", Nombre: " << e.getEstudiante()->getDato().getNombre() << endl;
+					cout << endl;
+				}
+			}
 		}
 	}
 }
@@ -1102,39 +1154,86 @@ void SistemaMatricula::estudiantesInactivosMateria()
 {
 	cout << endl;
 
-	// Solicitar la materia
-	Materia m;
+	string codigo;
+	int numero;
 
-	for (int i = 0; i < m.getGrupos().cantidad(); i++)
+	cout << "Ingrese por favor el codigo de la materia:" << endl;
+	cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+	getline(std::cin, codigo);
+
+	Materia m = listaMaterias.consultar(codigo);
+
+	if (m.getNombre() == " ")
 	{
-		Grupo g = m.getGrupos().demeDato(i);
+		cout << "La materia no se encuentra registrada" << endl;
+		cout << endl;
+	}
+	else
+	{
 
-		for (int j = 0; j < g.getListaMatricula().cantidad(); j++)
+		for (int i = 0; i < m.getGrupos().cantidad(); i++)
 		{
-			EstudianteMatriculado e = g.getListaMatricula().demeDato(j);
+			Grupo g = m.getGrupos().demeDato(i);
 
-			if (!e.getEstudiante()->getDato().isActivo()) {
-				cout << "Cedula: " << e.getCedula() << ", Nombre: " << e.getEstudiante()->getDato().getNombre() << endl;
-				cout << endl;
+			for (int j = 0; j < g.getListaMatricula().cantidad(); j++)
+			{
+				EstudianteMatriculado e = g.getListaMatricula().demeDato(j);
+
+				if (!e.getEstudiante()->getDato().isActivo()) {
+					cout << "Cedula: " << e.getCedula() << ", Nombre: " << e.getEstudiante()->getDato().getNombre() << endl;
+					cout << endl;
+				}
 			}
 		}
 	}
+
 }
 
 void SistemaMatricula::estudiantesInactivosGrupo()
 {
 	cout << endl;
 
-	// Solicitar la materia y el grupo
-	Grupo g;
+	cout << endl;
 
-	for (int i = 0; i < g.getListaMatricula().cantidad(); i++)
+	string codigo;
+	int numero;
+
+	cout << "Ingrese por favor el codigo de la materia:" << endl;
+	cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+	getline(std::cin, codigo);
+
+	Materia m = listaMaterias.consultar(codigo);
+
+	if (m.getNombre() == " ")
 	{
-		EstudianteMatriculado e = g.getListaMatricula().demeDato(i);
+		cout << "La materia no se encuentra registrada" << endl;
+		cout << endl;
+	}
+	else
+	{
+		cout << "Ingrese por favor el numero de grupo:" << endl;
+		cin >> numero;
 
-		if (!e.getEstudiante()->getDato().isActivo()) {
-			cout << "Cedula: " << e.getCedula() << ", Nombre: " << e.getEstudiante()->getDato().getNombre() << endl;
+		Grupo g = m.getGrupos().consultar(numero);
+
+		if (g.getMateria() == " ")
+		{
 			cout << endl;
+			cout << "El grupo no esta registrado en el sistema." << endl;
+			cout << endl;
+		}
+		else
+		{
+
+			for (int i = 0; i < g.getListaMatricula().cantidad(); i++)
+			{
+				EstudianteMatriculado e = g.getListaMatricula().demeDato(i);
+
+				if (!e.getEstudiante()->getDato().isActivo()) {
+					cout << "Cedula: " << e.getCedula() << ", Nombre: " << e.getEstudiante()->getDato().getNombre() << endl;
+					cout << endl;
+				}
+			}
 		}
 	}
 }

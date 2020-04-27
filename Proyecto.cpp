@@ -78,7 +78,7 @@ void mostrarMenuMatriculados() {
 	cout << "*********** MENU DE MATRICULA ***********" << endl;
 	cout << endl;
 	cout << "1.  Matricular estudiante" << endl;
-	cout << "2.  Listar matriculados por curso" << endl;
+	cout << "2.  Listar matriculados por grupo" << endl;
 	cout << "3.  Retirar estudiante de grupo" << endl;
 	cout << "4.  Modificar nota de estudiante" << endl;
 	cout << "5.  Mostrar detalle de estudiante matriculado" << endl;
@@ -99,11 +99,15 @@ void mostrarMenuEstadisticas() {
 	cout << "4.  Grupo con menos cantidad de estudiantes matriculados" << endl;
 	cout << "5.  Grupo con mayor cantidad de estudiantes matriculados" << endl;
 	cout << "6.  Lista de estudiantes activos" << endl;
-	cout << "7.  Lista de estudiantes inactivos" << endl;
-	cout << "8.  Lista del mejor estudiante de cada materia" << endl;
-	cout << "9.  Lista de estudiantes por materia con nota maxima (100)" << endl;
+	cout << "7.  Lista de estudiantes activos por materia" << endl;
+	cout << "8.  Lista de estudiantes activos por grupo" << endl;
+	cout << "9.  Lista de estudiantes inactivos" << endl;
+	cout << "10.  Lista de estudiantes inactivos por materia" << endl;
+	cout << "11.  Lista de estudiantes inactivos por grupo" << endl;
+	cout << "12.  Lista del mejor estudiante de cada materia" << endl;
+	cout << "13.  Lista de estudiantes por materia con nota maxima (100)" << endl;
 	cout << " " << endl;
-	cout << "10.  Volver a menu principal" << endl;
+	cout << "14.  Volver a menu principal" << endl;
 	cout << endl;
 
 
@@ -369,18 +373,34 @@ bool ejecutarAccionEstadisticas(int popcion) {
 		system("PAUSE");
 		break;
 	case 7:
-		matricula.estudiantesInactivos();
+		matricula.estudiantesActivosMateria();
 		system("PAUSE");
 		break;
 	case 8:
-		matricula.TopEstudiantesPorMateria();
+		matricula.estudiantesActivosGrupo();
 		system("PAUSE");
 		break;
 	case 9:
+		matricula.estudiantesInactivos();
+		system("PAUSE");
+		break;
+	case 10:
+		matricula.estudiantesInactivosMateria();
+		system("PAUSE");
+		break;
+	case 11:
+		matricula.estudiantesInactivosGrupo();
+		system("PAUSE");
+		break;
+	case 12:
+		matricula.TopEstudiantesPorMateria();
+		system("PAUSE");
+		break;
+	case 13:
 		matricula.estudiantesMaximaNotaPorMateria();
 		system("PAUSE");
 		break;;
-	case 10:
+	case 14:
 		noSalir = false;
 		break;
 
