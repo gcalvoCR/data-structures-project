@@ -18,8 +18,13 @@ private:
 	NodoDG* nodoPrimero();
 	Grupo demeDato(NodoDG*);
 	void borrarNodo(NodoDG*);
+
+	void agregarAArchivo(Grupo);
+	void borrarDeArchivo(Grupo);
+	void modificarEnArchivo(Grupo);
 public:
 	ListaGrupos();
+	ListaGrupos(string);
 
 	bool esVacia();
 	int cantidad();

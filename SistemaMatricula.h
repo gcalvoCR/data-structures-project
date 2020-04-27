@@ -51,7 +51,12 @@ public:
 	//falta de implementar de aca para abajo
 	void grupoMenosMatriculados();
 	void grupoMasMatriculados();
+	void gruposDesactivos();
+	void estudiantesActivosMateria();
+	void estudiantesActivosGrupo();
 	void estudiantesActivos();
+	void estudiantesInactivosMateria();
+	void estudiantesInactivosGrupo();
 	void estudiantesInactivos();
 	void TopEstudiantesPorMateria();
 	void estudiantesMaximaNotaPorMateria();

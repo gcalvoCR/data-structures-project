@@ -670,32 +670,38 @@ void SistemaMatricula::matricularEstudiante() {
 
 		Grupo g = lem.consultar(numero);
 
-		Estudiante student;
-		student.setCedula(cedula);
+		if (g.getMatriculados() < g.getMaximo()) {
+			Estudiante student;
+			student.setCedula(cedula);
 
-		NodoDE* e = maestroEstudiantes.buscarNodo(student);
+			NodoDE* e = maestroEstudiantes.buscarNodo(student);
 
-		EstudianteMatriculado em = EstudianteMatriculado(cedula, -1, e);
+			EstudianteMatriculado em = EstudianteMatriculado(cedula, -1, e, m.getCodigoMateria(), g.getNumero());
 
-		ListaEstudiantesMatriculados lm = g.getListaMatricula();
+			ListaEstudiantesMatriculados lm = g.getListaMatricula();
 
-		lm.agregarFinal(em);
+			lm.agregarFinal(em);
 
 
-		g.setListaMatricula(lm);
+			g.setListaMatricula(lm);
 
-		int matriculados = g.getMatriculados();
+			int matriculados = g.getMatriculados();
 
-		g.setMatriculados(matriculados + 1);
+			g.setMatriculados(matriculados + 1);
 
-		lem.modificar(g);
+			lem.modificar(g);
 
-		m.setGrupos(lem);
+			m.setGrupos(lem);
 
-		listaMaterias.modificar(m);
+			listaMaterias.modificar(m);
 
-		cout << "El estudiante " << cedula << " fue matriculado en la materia " << materia << "." << endl;
-		cout << endl;
+			cout << "El estudiante " << cedula << " fue matriculado en la materia " << materia << "." << endl;
+			cout << endl;
+		}
+		else {
+			cout << "Lo sentimos, la cantidad máxima de estudiantes en el grupo " << g.getNumero() << " ha sido alcanzada" << endl;
+			cout << endl;
+		}
 	}
 }
 
@@ -960,26 +966,252 @@ void SistemaMatricula::totalEstudiantesPorMateria()
 
 void SistemaMatricula::grupoMenosMatriculados()
 {
+	cout << endl;
+
+	Grupo g;
+
+	for (int i = 0; i < listaMaterias.cantidad(); i++)
+	{
+		Materia m = listaMaterias.demeDato(i);
+		ListaGrupos lg = m.getGrupos();
+
+		if (g.getMateria() == " ") {
+			g = lg.demeDato(0);
+		}
+
+		for (int j = 0; j < lg.cantidad(); j++) {
+			if (lg.demeDato(j).getListaMatricula().cantidad() < g.getListaMatricula().cantidad()) {
+				g = lg.demeDato(j);
+			}
+		}
+	}
+
+	if (g.getMateria() != " ") {
+		cout << "La materia y grupo con menos matricula es:" << endl;
+		cout << endl;
+		g.desplegar();
+		cout << endl;
+	}
 }
 
 void SistemaMatricula::grupoMasMatriculados()
 {
+	cout << endl;
+
+	Grupo g;
+
+	for (int i = 0; i < listaMaterias.cantidad(); i++)
+	{
+		Materia m = listaMaterias.demeDato(i);
+		ListaGrupos lg = m.getGrupos();
+
+		if (g.getMateria() == " ") {
+			g = lg.demeDato(0);
+		}
+
+		for (int j = 0; j < lg.cantidad(); j++) {
+			if (lg.demeDato(j).getListaMatricula().cantidad() > g.getListaMatricula().cantidad()) {
+				g = lg.demeDato(j);
+			}
+		}
+	}
+
+	if (g.getMateria() != " ") {
+		cout << "La materia y grupo con mas matricula es:" << endl;
+		cout << endl;
+		g.desplegar();
+		cout << endl;
+	}
+}
+
+void SistemaMatricula::gruposDesactivos()
+{
+	cout << endl;
+
+	for (int i = 0; i < listaMaterias.cantidad(); i++)
+	{
+		Materia m = listaMaterias.demeDato(i);
+		ListaGrupos lg = m.getGrupos();
+
+		for (int j = 0; j < lg.cantidad(); j++) {
+			if (!lg.demeDato(j).getEstatus()) {
+				lg.demeDato(j).desplegar();
+				cout << endl;
+			}
+		}
+	}
+}
+
+void SistemaMatricula::estudiantesActivosMateria()
+{
+	cout << endl;
+
+	// Solicitar la materia
+	Materia m;
+
+	for (int i = 0; i < m.getGrupos().cantidad(); i++)
+	{
+		Grupo g = m.getGrupos().demeDato(i);
+
+		for (int j = 0; j < g.getListaMatricula().cantidad(); j++)
+		{
+			EstudianteMatriculado e = g.getListaMatricula().demeDato(j);
+
+			if (e.getEstudiante()->getDato().isActivo()) {
+				cout << "Cedula: " << e.getCedula() << ", Nombre: " << e.getEstudiante()->getDato().getNombre() << endl;
+				cout << endl;
+			}
+		}
+	}
+}
+
+void SistemaMatricula::estudiantesActivosGrupo()
+{
+	cout << endl;
+
+	// Solicitar la materia y el grupo
+	Grupo g;
+
+	for (int i = 0; i < g.getListaMatricula().cantidad(); i++)
+	{
+		EstudianteMatriculado e = g.getListaMatricula().demeDato(i);
+
+		if (e.getEstudiante()->getDato().isActivo()) {
+			cout << "Cedula: " << e.getCedula() << ", Nombre: " << e.getEstudiante()->getDato().getNombre() << endl;
+			cout << endl;
+		}
+	}
 }
 
 void SistemaMatricula::estudiantesActivos()
 {
+	cout << endl;
+
+	for (int i = 0; i < maestroEstudiantes.cantidad(); i++)
+	{
+		Estudiante e = maestroEstudiantes.demeDato(i);
+		
+		if (e.isActivo()) {
+			cout << "Cedula: " << e.getCedula() << ", Nombre: " << e.getNombre() << endl;
+			cout << endl;
+		}
+	}
+}
+
+void SistemaMatricula::estudiantesInactivosMateria()
+{
+	cout << endl;
+
+	// Solicitar la materia
+	Materia m;
+
+	for (int i = 0; i < m.getGrupos().cantidad(); i++)
+	{
+		Grupo g = m.getGrupos().demeDato(i);
+
+		for (int j = 0; j < g.getListaMatricula().cantidad(); j++)
+		{
+			EstudianteMatriculado e = g.getListaMatricula().demeDato(j);
+
+			if (!e.getEstudiante()->getDato().isActivo()) {
+				cout << "Cedula: " << e.getCedula() << ", Nombre: " << e.getEstudiante()->getDato().getNombre() << endl;
+				cout << endl;
+			}
+		}
+	}
+}
+
+void SistemaMatricula::estudiantesInactivosGrupo()
+{
+	cout << endl;
+
+	// Solicitar la materia y el grupo
+	Grupo g;
+
+	for (int i = 0; i < g.getListaMatricula().cantidad(); i++)
+	{
+		EstudianteMatriculado e = g.getListaMatricula().demeDato(i);
+
+		if (!e.getEstudiante()->getDato().isActivo()) {
+			cout << "Cedula: " << e.getCedula() << ", Nombre: " << e.getEstudiante()->getDato().getNombre() << endl;
+			cout << endl;
+		}
+	}
 }
 
 void SistemaMatricula::estudiantesInactivos()
 {
+	cout << endl;
+
+	for (int i = 0; i < maestroEstudiantes.cantidad(); i++)
+	{
+		Estudiante e = maestroEstudiantes.demeDato(i);
+
+		if (!e.isActivo()) {
+			cout << "Cedula: " << e.getCedula() << ", Nombre: " << e.getNombre() << endl;
+			cout << endl;
+		}
+	}
 }
 
 void SistemaMatricula::TopEstudiantesPorMateria()
 {
+	cout << endl;
+
+	for (int i = 0; i < listaMaterias.cantidad(); i++)
+	{
+		Materia m = listaMaterias.demeDato(i);
+		ListaGrupos lg = m.getGrupos();
+
+		for (int j = 0; j < lg.cantidad(); j++) {
+			Grupo g = lg.demeDato(j);
+			ListaEstudiantesMatriculados lem = g.getListaMatricula();
+			EstudianteMatriculado em;
+
+			if (lem.cantidad() > 0) {
+				em = lem.demeDato(0);
+			}
+
+			for (int k = 0; k < lem.cantidad(); k++) {
+				if (lem.demeDato(k).getNota() > em.getNota()) {
+					em = lem.demeDato(k);
+				}
+			}
+
+			if (em.getNota() != 0) {
+				cout << "Estudiante con mejor nota en la materia: " << g.getMateria() << ", grupo: " << g.getNumero() << endl;
+				em.desplegar();
+				cout << endl;
+			}
+		}
+	}
 }
 
 void SistemaMatricula::estudiantesMaximaNotaPorMateria()
 {
+	cout << endl;
+
+	for (int i = 0; i < listaMaterias.cantidad(); i++)
+	{
+		Materia m = listaMaterias.demeDato(i);
+		ListaGrupos lg = m.getGrupos();
+
+		for (int j = 0; j < lg.cantidad(); j++) {
+			Grupo g = lg.demeDato(j);
+			ListaEstudiantesMatriculados lem = g.getListaMatricula();
+
+			for (int k = 0; k < lem.cantidad(); k++) {
+				if (lem.demeDato(k).getNota() == 100) {
+					cout << "Materia: " << g.getMateria() << endl;
+					cout << "Grupo: " << g.getNumero() << endl;
+					cout << "Cedula: " << lem.demeDato(k).getCedula() << endl;
+					cout << "Nombre: " << lem.demeDato(k).getEstudiante()->getDato().getNombre() << endl;
+					cout << "Nota: " << lem.demeDato(k).getNota() << endl;
+					cout << endl;
+				}
+			}
+		}
+	}
 }
 
 #pragma endregion

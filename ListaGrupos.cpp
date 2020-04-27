@@ -1,5 +1,11 @@
 #include "ListaGrupos.h"
 #include <iostream>
+#include <fstream>
+#include <string>
+#include <sstream>
+#include <algorithm>
+#include <iterator>
+using namespace std;
 
 NodoDG* ListaGrupos::getCab()
 {
@@ -123,6 +129,11 @@ void ListaGrupos::borrarNodo(NodoDG* dir)
 				this->setCab(NULL);
 			}
 
+			ListaEstudiantesMatriculados lEM = dir->getDato().getListaMatricula();
+			lEM.limpiar();
+
+			dir->getDato().setListaMatricula(lEM);
+
 			delete aux;
 
 			this->setLargo(this->getLargo() - 1);
@@ -139,6 +150,11 @@ void ListaGrupos::borrarNodo(NodoDG* dir)
 					aux->getSgte()->setAnte(aux->getAnte());
 				}
 
+				ListaEstudiantesMatriculados lEM = dir->getDato().getListaMatricula();
+				lEM.limpiar();
+
+				dir->getDato().setListaMatricula(lEM);
+
 				delete aux;
 
 				this->setLargo(this->getLargo() - 1);
@@ -147,10 +163,216 @@ void ListaGrupos::borrarNodo(NodoDG* dir)
 	}
 }
 
+void ListaGrupos::agregarAArchivo(Grupo x)
+{
+	ofstream archivoGrupos;
+
+	archivoGrupos.open("Grupos.txt", ios::app);
+
+	archivoGrupos << "Materia:" << x.getMateria();
+	archivoGrupos << ",Numero:" << x.getNumero();
+	archivoGrupos << ",Estatus:" << x.getEstatus();
+	archivoGrupos << ",Maximo:" << x.getMaximo();
+	archivoGrupos << ",Matriculados:" << x.getMatriculados() << endl;
+
+	archivoGrupos.close();
+}
+
+void ListaGrupos::borrarDeArchivo(Grupo x)
+{
+	string grupo;
+	ifstream archivoGrupos;
+	ofstream temp;
+
+	archivoGrupos.open("Grupos.txt");
+	temp.open("Temp.txt");
+
+	while (getline(archivoGrupos, grupo))
+	{
+		if (!(grupo.find("Materia:" + x.getMateria()) != std::string::npos && grupo.find("Numero:" + x.getNumero()) != std::string::npos)) {
+			temp << grupo << endl;
+		}
+	}
+
+	archivoGrupos.close();
+	temp.close();
+
+	remove("Grupos.txt");
+	rename("Temp.txt", "Grupos.txt");
+}
+
+void ListaGrupos::modificarEnArchivo(Grupo x)
+{
+	string grupo;
+	ifstream archivoGrupos;
+	ofstream temp;
+
+	archivoGrupos.open("Grupos.txt");
+	temp.open("Temp.txt");
+
+	while (getline(archivoGrupos, grupo))
+	{
+		if (grupo.find("Materia:" + x.getMateria()) != std::string::npos && grupo.find("Numero:" + x.getNumero()) != std::string::npos) {
+			temp << "Materia:" << x.getMateria();
+			temp << ",Numero:" << x.getNumero();
+			temp << ",Estatus:" << x.getEstatus();
+			temp << ",Maximo:" << x.getMaximo();
+			temp << ",Matriculados:" << x.getMatriculados() << endl;
+		}
+		else {
+			temp << grupo << endl;
+		}
+	}
+
+	archivoGrupos.close();
+	temp.close();
+
+	remove("Grupos.txt");
+	rename("Temp.txt", "Grupos.txt");
+}
+
 ListaGrupos::ListaGrupos()
 {
-	this->cab = NULL;
+	string grupo;
+	ifstream archivoGrupos("Grupos.txt");
+
 	this->largo = 0;
+	this->cab = NULL;
+
+	if (archivoGrupos.is_open())
+	{
+		while (getline(archivoGrupos, grupo))
+		{
+			stringstream ss(grupo);
+			string dato;
+			Grupo g;
+			NodoDG* n;
+
+			while (std::getline(ss, dato, ','))
+			{
+				if (dato.find("Materia") != std::string::npos) {
+					g.setMateria(dato.substr(dato.find(":") + 1));
+				}
+				else if (dato.find("Numero") != std::string::npos) {
+					int numero;
+					std::istringstream(dato.substr(dato.find(":") + 1)) >> numero;
+					g.setNumero(numero);
+				}
+				else if (dato.find("Estatus") != std::string::npos) {
+					bool estatus;
+					std::istringstream(dato.substr(dato.find(":") + 1)) >> estatus;
+					g.setEstatus(estatus);
+				}
+				else if (dato.find("Maximo") != std::string::npos) {
+					int maximo;
+					std::istringstream(dato.substr(dato.find(":") + 1)) >> maximo;
+					g.setMaximo(maximo);
+				}
+				else if (dato.find("Matriculados") != std::string::npos) {
+					int matriculados;
+					std::istringstream(dato.substr(dato.find(":") + 1)) >> matriculados;
+					g.setMatriculados(matriculados);
+				}
+			}
+
+			n = new NodoDG(g);
+
+			if (this->esVacia()) {
+				n->setSgte(n);
+				n->setAnte(n);
+
+				this->setCab(n);
+			}
+			else {
+				NodoDG* ult = this->nodoUltimo();
+
+				n->setAnte(ult);
+				n->setSgte(this->getCab());
+
+				ult->setSgte(n);
+
+				this->getCab()->setAnte(n);
+			}
+
+			this->setLargo(this->getLargo() + 1);
+		}
+
+		archivoGrupos.close();
+	}
+}
+
+ListaGrupos::ListaGrupos(string pMateria)
+{
+	string grupo;
+	ifstream archivoGrupos("Grupos.txt");
+
+	this->largo = 0;
+	this->cab = NULL;
+
+	if (archivoGrupos.is_open())
+	{
+		while (getline(archivoGrupos, grupo))
+		{
+			stringstream ss(grupo);
+			string dato;
+			Grupo g;
+			NodoDG* n;
+
+			while (std::getline(ss, dato, ','))
+			{
+				if (dato.find("Materia:" + pMateria) != std::string::npos) {
+					if (dato.find("Materia") != std::string::npos) {
+						g.setMateria(dato.substr(dato.find(":") + 1));
+					}
+					else if (dato.find("Numero") != std::string::npos) {
+						int numero;
+						std::istringstream(dato.substr(dato.find(":") + 1)) >> numero;
+						g.setNumero(numero);
+					}
+					else if (dato.find("Estatus") != std::string::npos) {
+						bool estatus;
+						std::istringstream(dato.substr(dato.find(":") + 1)) >> estatus;
+						g.setEstatus(estatus);
+					}
+					else if (dato.find("Maximo") != std::string::npos) {
+						int maximo;
+						std::istringstream(dato.substr(dato.find(":") + 1)) >> maximo;
+						g.setMaximo(maximo);
+					}
+					else if (dato.find("Matriculados") != std::string::npos) {
+						int matriculados;
+						std::istringstream(dato.substr(dato.find(":") + 1)) >> matriculados;
+						g.setMatriculados(matriculados);
+					}
+				}
+			}
+
+			g.setListaMatricula(ListaEstudiantesMatriculados(g.getMateria(), g.getNumero()));
+
+			n = new NodoDG(g);
+
+			if (this->esVacia()) {
+				n->setSgte(n);
+				n->setAnte(n);
+
+				this->setCab(n);
+			}
+			else {
+				NodoDG* ult = this->nodoUltimo();
+
+				n->setAnte(ult);
+				n->setSgte(this->getCab());
+
+				ult->setSgte(n);
+
+				this->getCab()->setAnte(n);
+			}
+
+			this->setLargo(this->getLargo() + 1);
+		}
+
+		archivoGrupos.close();
+	}
 }
 
 bool ListaGrupos::esVacia()
@@ -246,6 +468,8 @@ void ListaGrupos::agregarInicio(Grupo x)
 
 	this->setCab(n);
 	this->setLargo(this->getLargo() + 1);
+
+	this->agregarAArchivo(x);
 }
 
 void ListaGrupos::agregarFinal(Grupo x)
@@ -264,6 +488,8 @@ void ListaGrupos::agregarFinal(Grupo x)
 		this->getCab()->setAnte(n);
 
 		this->setLargo(this->getLargo() + 1);
+
+		this->agregarAArchivo(x);
 	}
 }
 
@@ -293,6 +519,8 @@ bool ListaGrupos::agregarEnPos(int pos, Grupo x)
 			aux->setAnte(n);
 
 			this->setLargo(this->getLargo() + 1);
+
+			this->agregarAArchivo(x);
 		}
 
 		agregado = true;
@@ -318,6 +546,8 @@ bool ListaGrupos::agregarAntesDe(Grupo x, Grupo r)
 		agregado = true;
 
 		this->setLargo(this->getLargo() + 1);
+
+		this->agregarAArchivo(x);
 	}
 
 	return agregado;
@@ -340,6 +570,8 @@ bool ListaGrupos::agregarDespuesDe(Grupo x, Grupo r)
 		agregado = true;
 
 		this->setLargo(this->getLargo() + 1);
+
+		this->agregarAArchivo(x);
 	}
 
 	return agregado;
@@ -350,14 +582,11 @@ bool ListaGrupos::borrar(Grupo x)
 	bool borrado = false;
 
 	if (this->existe(x)) {
-		ListaEstudiantesMatriculados lEM = x.getListaMatricula();
-		lEM.limpiar();
-
-		x.setListaMatricula(lEM);
-
 		this->borrarNodo(this->buscarNodo(x));
 
 		borrado = true;
+
+		this->borrarDeArchivo(x);
 	}
 
 	return borrado;
@@ -369,9 +598,13 @@ bool ListaGrupos::borrarEnPos(int pos)
 
 	if (!this->esVacia() && pos >= 0 && pos < this->cantidad()) {
 		if (pos == 0) {
+			this->borrarDeArchivo(this->nodoPrimero()->getDato());
+
 			this->borrarNodo(this->nodoPrimero());
 		}
 		else if (pos == this->cantidad() - 1) {
+			this->borrarDeArchivo(this->nodoUltimo()->getDato());
+
 			this->borrarNodo(this->nodoUltimo());
 		}
 		else {
@@ -380,6 +613,8 @@ bool ListaGrupos::borrarEnPos(int pos)
 			for (int i = 0; i < pos; i++) {
 				aux = aux->getSgte();
 			}
+
+			this->borrarDeArchivo(aux->getDato());
 
 			this->borrarNodo(aux);
 		}
@@ -398,6 +633,8 @@ void ListaGrupos::limpiar()
 
 		do {
 			sgte = aux->getSgte();
+
+			this->borrarDeArchivo(aux->getDato());
 
 			delete aux;
 
@@ -446,11 +683,11 @@ bool ListaGrupos::modificar(Grupo x)
 	NodoDG* aux = this->buscarNodo(x);
 
 	if (aux != NULL) {
-		//Grupo g = Grupo(x.getMateria(), x.getNumero(), x.getEstatus(), x.getMaximo(), x.getMatriculados());
-
 		aux->setDato(x);
 
 		modificado = true;
+
+		this->modificarEnArchivo(x);
 	}
 
 	return modificado;

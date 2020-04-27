@@ -244,6 +244,8 @@ ListaMaterias::ListaMaterias()
 				}
 			}
 
+			m.setGrupos(ListaGrupos(m.getCodigoMateria()));
+
 			n = new NodoDM(m);
 
 			if (this->esVacia()) {

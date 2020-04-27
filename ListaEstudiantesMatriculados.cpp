@@ -1,11 +1,144 @@
 #include "ListaEstudiantesMatriculados.h"
 #include <iostream>
+#include <fstream>
+#include <string>
+#include <sstream>
+#include <algorithm>
+#include <iterator>
+#include "MaestroEstudiantes.h"
+using namespace std;
 
 
 ListaEstudiantesMatriculados::ListaEstudiantesMatriculados()
 {
-	this->cab = NULL;
+	string estudianteMatriculado;
+	ifstream archivoEstudiantesMatriculados("Estudiantes matriculados.txt");
+
 	this->largo = 0;
+	this->cab = NULL;
+
+	if (archivoEstudiantesMatriculados.is_open())
+	{
+		while (getline(archivoEstudiantesMatriculados, estudianteMatriculado))
+		{
+			stringstream ss(estudianteMatriculado);
+			string dato;
+			EstudianteMatriculado eM;
+			NodoDEM* n;
+
+			while (std::getline(ss, dato, ','))
+			{
+				if (dato.find("Estudiante") != std::string::npos) {
+					eM.setCedula(dato.substr(dato.find(":") + 1));
+				}
+				else if (dato.find("Materia") != std::string::npos) {
+					eM.setMateria(dato.substr(dato.find(":") + 1));
+				}
+				else if (dato.find("Grupo") != std::string::npos) {
+					int grupo;
+					std::istringstream(dato.substr(dato.find(":") + 1)) >> grupo;
+					eM.setGrupo(grupo);
+				}
+				else if (dato.find("Nota") != std::string::npos) {
+					int nota;
+					std::istringstream(dato.substr(dato.find(":") + 1)) >> nota;
+					eM.setNota(nota);
+				}
+			}
+
+			n = new NodoDEM(eM);
+
+			if (this->esVacia()) {
+				n->setSgte(n);
+				n->setAnte(n);
+
+				this->setCab(n);
+			}
+			else {
+				NodoDEM* ult = this->nodoUltimo();
+
+				n->setAnte(ult);
+				n->setSgte(this->getCab());
+
+				ult->setSgte(n);
+
+				this->getCab()->setAnte(n);
+			}
+
+			this->setLargo(this->getLargo() + 1);
+		}
+
+		archivoEstudiantesMatriculados.close();
+	}
+}
+
+ListaEstudiantesMatriculados::ListaEstudiantesMatriculados(string pMateria, int pGrupo)
+{
+	string estudianteMatriculado;
+	ifstream archivoEstudiantesMatriculados("Estudiantes matriculados.txt");
+
+	this->largo = 0;
+	this->cab = NULL;
+
+	if (archivoEstudiantesMatriculados.is_open())
+	{
+		while (getline(archivoEstudiantesMatriculados, estudianteMatriculado))
+		{
+			stringstream ss(estudianteMatriculado);
+			string dato;
+			EstudianteMatriculado eM;
+			NodoDEM* n;
+			MaestroEstudiantes m;
+
+			while (std::getline(ss, dato, ','))
+			{
+				if (dato.find("Materia:" + pMateria) != std::string::npos && dato.find("Grupo:" + pGrupo) != std::string::npos) 
+				{
+					if (dato.find("Estudiante") != std::string::npos) {
+						eM.setCedula(dato.substr(dato.find(":") + 1));
+					}
+					else if (dato.find("Materia") != std::string::npos) {
+						eM.setMateria(dato.substr(dato.find(":") + 1));
+					}
+					else if (dato.find("Grupo") != std::string::npos) {
+						int grupo;
+						std::istringstream(dato.substr(dato.find(":") + 1)) >> grupo;
+						eM.setGrupo(grupo);
+					}
+					else if (dato.find("Nota") != std::string::npos) {
+						int nota;
+						std::istringstream(dato.substr(dato.find(":") + 1)) >> nota;
+						eM.setNota(nota);
+					}
+				}
+			}
+
+			eM.setEstudiante(m.buscarNodo(m.consultar(eM.getCedula())));
+
+			n = new NodoDEM(eM);
+
+			if (this->esVacia()) {
+				n->setSgte(n);
+				n->setAnte(n);
+
+				this->setCab(n);
+			}
+			else {
+				NodoDEM* ult = this->nodoUltimo();
+
+				n->setAnte(ult);
+				n->setSgte(this->getCab());
+
+				ult->setSgte(n);
+
+				this->getCab()->setAnte(n);
+			}
+
+			this->setLargo(this->getLargo() + 1);
+		}
+
+		archivoEstudiantesMatriculados.close();
+	}
 }
 
 NodoDEM* ListaEstudiantesMatriculados::getCab()
@@ -164,6 +297,72 @@ void ListaEstudiantesMatriculados::borrarNodo(NodoDEM* dir)
 	}
 }
 
+void ListaEstudiantesMatriculados::agregarAArchivo(EstudianteMatriculado x)
+{
+	ofstream archivoEstudiantesMatriculados;
+
+	archivoEstudiantesMatriculados.open("Estudiantes matriculados.txt", ios::app);
+
+	archivoEstudiantesMatriculados << "Estudiante:" << x.getCedula();
+	archivoEstudiantesMatriculados << ",Materia:" << x.getMateria();
+	archivoEstudiantesMatriculados << ",Grupo:" << x.getGrupo();
+	archivoEstudiantesMatriculados << ",Nota:" << x.getNota() << endl;
+
+	archivoEstudiantesMatriculados.close();
+}
+
+void ListaEstudiantesMatriculados::borrarDeArchivo(EstudianteMatriculado x)
+{
+	string estudianteMatriculado;
+	ifstream archivoEstudiantesMatriculados;
+	ofstream temp;
+
+	archivoEstudiantesMatriculados.open("Estudiantes matriculados.txt");
+	temp.open("Temp.txt");
+
+	while (getline(archivoEstudiantesMatriculados, estudianteMatriculado))
+	{
+		if (!(estudianteMatriculado.find("Estudiante:" + x.getCedula()) != std::string::npos && estudianteMatriculado.find("Materia:" + x.getMateria()) != std::string::npos && estudianteMatriculado.find("Grupo:" + x.getGrupo()) != std::string::npos)) {
+			temp << estudianteMatriculado << endl;
+		}
+	}
+
+	archivoEstudiantesMatriculados.close();
+	temp.close();
+
+	remove("Estudiantes matriculados.txt");
+	rename("Temp.txt", "Estudiantes matriculados.txt");
+}
+
+void ListaEstudiantesMatriculados::modificarEnArchivo(EstudianteMatriculado x)
+{
+	string estudianteMatriculado;
+	ifstream archivoEstudiantesMatriculados;
+	ofstream temp;
+
+	archivoEstudiantesMatriculados.open("Estudiantes matriculados.txt");
+	temp.open("Temp.txt");
+
+	while (getline(archivoEstudiantesMatriculados, estudianteMatriculado))
+	{
+		if (estudianteMatriculado.find("Estudiante:" + x.getCedula()) != std::string::npos && estudianteMatriculado.find("Materia:" + x.getMateria()) != std::string::npos && estudianteMatriculado.find("Grupo:" + x.getGrupo()) != std::string::npos) {
+			temp << "Estudiante:" << x.getCedula();
+			temp << ",Materia:" << x.getMateria();
+			temp << ",Grupo:" << x.getGrupo();
+			temp << ",Nota:" << x.getNota() << endl;
+		}
+		else {
+			temp << estudianteMatriculado << endl;
+		}
+	}
+
+	archivoEstudiantesMatriculados.close();
+	temp.close();
+
+	remove("Estudiantes matriculados.txt");
+	rename("Temp.txt", "Estudiantes matriculados.txt");
+}
+
 bool ListaEstudiantesMatriculados::esVacia()
 {
 	return this->getLargo() == 0;
@@ -257,6 +456,8 @@ void ListaEstudiantesMatriculados::agregarInicio(EstudianteMatriculado x)
 
 	this->setCab(n);
 	this->setLargo(this->getLargo() + 1);
+
+	this->agregarAArchivo(x);
 }
 
 void ListaEstudiantesMatriculados::agregarFinal(EstudianteMatriculado x)
@@ -275,6 +476,8 @@ void ListaEstudiantesMatriculados::agregarFinal(EstudianteMatriculado x)
 		this->getCab()->setAnte(n);
 
 		this->setLargo(this->getLargo() + 1);
+
+		this->agregarAArchivo(x);
 	}
 }
 
@@ -304,6 +507,8 @@ bool ListaEstudiantesMatriculados::agregarEnPos(int pos, EstudianteMatriculado x
 			aux->setAnte(n);
 
 			this->setLargo(this->getLargo() + 1);
+
+			this->agregarAArchivo(x);
 		}
 
 		agregado = true;
@@ -329,6 +534,8 @@ bool ListaEstudiantesMatriculados::agregarAntesDe(EstudianteMatriculado x, Estud
 		agregado = true;
 
 		this->setLargo(this->getLargo() + 1);
+
+		this->agregarAArchivo(x);
 	}
 
 	return agregado;
@@ -351,6 +558,8 @@ bool ListaEstudiantesMatriculados::agregarDespuesDe(EstudianteMatriculado x, Est
 		agregado = true;
 
 		this->setLargo(this->getLargo() + 1);
+
+		this->agregarAArchivo(x);
 	}
 
 	return agregado;
@@ -364,6 +573,8 @@ bool ListaEstudiantesMatriculados::borrar(EstudianteMatriculado x)
 		this->borrarNodo(this->buscarNodo(x));
 
 		borrado = true;
+
+		this->borrarDeArchivo(x);
 	}
 
 	return borrado;
@@ -375,9 +586,13 @@ bool ListaEstudiantesMatriculados::borrarEnPos(int pos)
 
 	if (!this->esVacia() && pos >= 0 && pos < this->cantidad()) {
 		if (pos == 0) {
+			this->borrarDeArchivo(this->nodoPrimero()->getDato());
+
 			this->borrarNodo(this->nodoPrimero());
 		}
 		else if (pos == this->cantidad() - 1) {
+			this->borrarDeArchivo(this->nodoUltimo()->getDato());
+
 			this->borrarNodo(this->nodoUltimo());
 		}
 		else {
@@ -386,6 +601,8 @@ bool ListaEstudiantesMatriculados::borrarEnPos(int pos)
 			for (int i = 0; i < pos; i++) {
 				aux = aux->getSgte();
 			}
+
+			this->borrarDeArchivo(aux->getDato());
 
 			this->borrarNodo(aux);
 		}
@@ -404,6 +621,8 @@ void ListaEstudiantesMatriculados::limpiar()
 
 		do {
 			sgte = aux->getSgte();
+
+			this->borrarDeArchivo(aux->getDato());
 
 			delete aux;
 
@@ -452,11 +671,11 @@ bool ListaEstudiantesMatriculados::modificar(EstudianteMatriculado x)
 	NodoDEM* aux = this->buscarNodo(x);
 
 	if (aux != NULL) {
-		//EstudianteMatriculado e = EstudianteMatriculado(x.getCedula(), x.getNota(), x.getEstudiante());
-
 		aux->setDato(x);
 
 		modificado = true;
+
+		this->modificarEnArchivo(x);
 	}
 
 	return modificado;

@@ -18,8 +18,13 @@ private:
 	NodoDEM* nodoPrimero();
 	EstudianteMatriculado demeDato(NodoDEM*);
 	void borrarNodo(NodoDEM*);
+
+	void agregarAArchivo(EstudianteMatriculado);
+	void borrarDeArchivo(EstudianteMatriculado);
+	void modificarEnArchivo(EstudianteMatriculado);
 public:
 	ListaEstudiantesMatriculados();
+	ListaEstudiantesMatriculados(string, int);
 
 	bool esVacia();
 	int cantidad();
