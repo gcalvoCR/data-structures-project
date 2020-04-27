@@ -1,0 +1,3 @@
+Cedula:014946298,Nombre:Gabriel Calvo Vargas,Celular:6280 5172,Correo:gcalvov@ucenfotec.ac.cr,Activo:1
+Cedula:257703149,Nombre:Ederson Arrieta Mora,Celular:8435 5028,Correo:earrietam@ucenfotec.ac.cr,Activo:1
+Cedula:993486465,Nombre:Kamil Sauma Zumbado,Celular:8707 0531,Correo:ksaumaz@ucenfotec.ac.cr,Activo:1

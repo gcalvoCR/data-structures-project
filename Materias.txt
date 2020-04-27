@@ -1,0 +1,3 @@
+Codigo:BISOFT-11,Nombre:Estructuras de Datos 1,Descripcion:Impartida por la prof. Ana Isabel Mendez Brenes
+Codigo:BISOFT-12,Nombre:Programacion con Patrones,Descripcion:Impartida por el prof. Erick Brenes Uma¤a
+Codigo:BISOFT-15,Nombre:Dise¤o y Construccion de Componentes,Descripcion:Impartida por el prof. Mario Aguero

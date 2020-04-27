@@ -1,0 +1,6 @@
+Estudiante:014946298,Materia:BISOFT-11,Grupo:1,Nota:100
+Estudiante:014946298,Materia:BISOFT-15,Grupo:1,Nota:100
+Estudiante:257703149,Materia:BISOFT-11,Grupo:1,Nota:86
+Estudiante:257703149,Materia:BISOFT-12,Grupo:1,Nota:88
+Estudiante:993486465,Materia:BISOFT-11,Grupo:1,Nota:93
+Estudiante:993486465,Materia:BISOFT-12,Grupo:1,Nota:99
